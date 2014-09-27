@@ -51,3 +51,7 @@ auto program_options::process_options(int ac, char** av) -> void {
         std::cout << desc << "\n";
     }
 }
+
+auto program_options::get_input_files() const -> const std::vector<std::string> {
+    return input_files;
+}

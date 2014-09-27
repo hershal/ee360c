@@ -6,8 +6,8 @@
 class program_options {
 public:
     program_options(int ac, char** av);
-    auto get_input_files() ->  std::vector<std::string>;
-    auto get_output_files() -> std::vector<std::string>;
+    auto get_input_files() const ->  const std::vector<std::string>;
+    auto get_output_files() const -> const std::vector<std::string>;
 private:
     auto process_options(int ac, char** av) -> void;
     auto file_does_exist(std::string path) -> bool;
