@@ -22,15 +22,14 @@ const char* program_options::kPOHelpDesc = "produce this help message";
 
 program_options::program_options(int ac, char** av) {
 
-
     process_options(ac, av);
 }
 
 auto program_options::process_options(int ac, char** av) -> void {
     po::options_description desc("Allowed options");
     desc.add_options()
-        ("input-file,i", po::value<std::vector<std::string> >(), "input files")
-        ("help", "help description");
+        (kPOInputFileCmdline, po::value<std::vector<std::string> >(), kPOIntputFileDesc)
+        (kPOHelpCmdline, kPOHelpDesc);
     
     /* Add the "input-file" flag as the implicit option */
     po::positional_options_description p;
