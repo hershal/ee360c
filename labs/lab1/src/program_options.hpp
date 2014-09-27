@@ -1,7 +1,6 @@
 #ifndef PROGRAM_OPTIONS_H
 #define PROGRAM_OPTIONS_H
 
-#include <vector>
 #include <map>
 
 class program_options {

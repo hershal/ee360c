@@ -4,6 +4,7 @@
 #include "boost/program_options.hpp"
 #include <boost/filesystem.hpp>
 
+#include <vector>
 #include <iostream>
 #include <fstream>
 #include <iterator>
