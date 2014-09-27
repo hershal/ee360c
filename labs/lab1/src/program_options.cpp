@@ -28,6 +28,8 @@ program_options::program_options(int32_t ac, char** av) {
 
 auto program_options::process_options(int32_t ac, char** av) -> void {
 
+    std::vector<std::string> input_files;
+
     po::options_description desc("Allowed options");
     desc.add_options()
         ("input-file,i", po::value<std::vector<std::string> >(), "input file(s)")
@@ -59,9 +61,34 @@ auto program_options::process_options(int32_t ac, char** av) -> void {
             std::cout << "File not found: " << file << "\n";
             exit(1);
         }
+        std::string replaced_ext = replace_file_extension(file, ".out");
+        input_output_file_map[file] = replaced_ext;
     }
 }
 
-auto program_options::get_input_files() const -> const std::vector<std::string> {
-    return input_files;
+auto program_options::replace_file_extension(
+    std::string file, std::string extension) const
+    -> const std::string {
+
+    size_t last_slash = file.find_last_of("/");
+
+    /* no last slash, check from beginning instead */
+    if (last_slash == std::string::npos) {
+        last_slash = 0;
+    }
+
+    std::string dirname_substr = file.substr(0, last_slash);
+    std::string basename_substr = file.substr(last_slash);
+
+    size_t last_dot = basename_substr.find_last_of(".");
+    basename_substr = basename_substr.substr(0, last_dot);
+    basename_substr.append(".out");
+
+    return dirname_substr.append(basename_substr);
+}
+
+auto program_options::get_input_output_file_map() const
+    -> const std::map<std::string, std::string> {
+
+    return input_output_file_map;
 }
