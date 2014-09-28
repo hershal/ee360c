@@ -12,9 +12,11 @@
 
 class complex_bipartite_graph {
 public:
-    complex_bipartite_graph();
-    auto generate_data_structures(std::string file_input) -> void;
+    complex_bipartite_graph(uint32_t num_tics, uint32_t num_tacs);
     auto mwmcm() -> void;
+    auto generate_data_structures() -> void;
+    auto add_tic(int32_t id, int32_t weight, int32_t min, int32_t max) -> void;
+    auto add_tac(int32_t id, int32_t weight) -> void;
     auto to_string() const -> const std::string;
 
 private:
@@ -23,7 +25,6 @@ private:
 
     std::vector<tic_node> tic_nodes;
     std::vector<tac_node> tac_nodes;
-    int32_t num_instances;
 
     /* Maps the index of the calculation to the weight-cardinality */
     std::map<uint32_t, std::pair<uint32_t, int32_t> > weight_cardinality_map;
