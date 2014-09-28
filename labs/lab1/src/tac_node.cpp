@@ -21,11 +21,11 @@ auto tac_node::add_adjacent_node(tac_node* node) -> void {
     adj_node.node = node;
     adj_node.edge_weight = node->get_weight() + this->weight;
 
-    adjacent_nodes.emplace(std::make_shared<adjacent_node>(adj_node));
+    adjacent_nodes.emplace_back(std::make_shared<adjacent_node>(adj_node));
 }
 
 auto tac_node::get_adjacent_nodes() const
-    -> const std::set<std::shared_ptr<adjacent_node> > {
+    -> const std::vector<std::shared_ptr<adjacent_node> > {
     return adjacent_nodes;
 }
 

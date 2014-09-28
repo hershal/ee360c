@@ -4,7 +4,6 @@
 #define TIC_NODE_H
 
 #include "tac_node.hpp"
-#include <set>
 
 class tic_node : public tac_node {
 public:

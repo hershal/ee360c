@@ -23,7 +23,7 @@ auto tic_node::to_string() const
     -> const std::string {
 
     std::stringstream str;
-    str << "tic " <<
+    str << "tic "
         << "id: " << this->get_id() << "\t"
         << "weight: " << this->get_weight() << "\t"
         << "min: " << this->get_min() << "\t"
