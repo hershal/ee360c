@@ -1,0 +1,15 @@
+* [0/4] Build classes
+** TODO tac_node
+Data values:
+- id (uint32_t)
+- weight (uint32_t)
+- adjacent_nodes (struct)
+  - node ids (uint32_t)
+  - node pointers (base_node*)
+** TODO tic_node subclasses tac_node
+Data Values:
+- min (uint32_t)
+- max (uint32_t)
+** TODO tac_node concrete
+** TODO Input file parser
+*** TODO Needs to generate the structures
