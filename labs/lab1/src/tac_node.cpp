@@ -2,7 +2,10 @@
 
 #include "tac_node.hpp"
 
+#include <sstream>
+
 tac_node::tac_node(int32_t id, int32_t weight) {
+
     this->id = id;
     this->weight = weight;
 }
@@ -31,3 +34,14 @@ auto inline tac_node::get_weight() const
 
 auto inline tac_node::get_id() const
     -> const int32_t { return this->id; }
+
+auto tac_node::to_string() const
+    -> const std::string {
+
+    std::stringstream str;
+    str << "tac "
+        << "id: " << this->get_id() << "\t"
+        << "weight: " << this->get_weight();
+
+    return str.str();
+}

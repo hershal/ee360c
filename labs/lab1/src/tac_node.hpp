@@ -5,7 +5,7 @@
 
 #include <set>
 #include <memory>
-
+<
 typedef struct adjacent_node {
     int32_t edge_weight;
     void* node;
@@ -23,6 +23,7 @@ public:
         -> const std::set<std::shared_ptr<adjacent_node> >;
     auto get_weight() const -> const int32_t;
     auto get_id() const -> const int32_t;
+    auto to_string() const -> const std::string;
 
 private:
     std::set<std::shared_ptr<adjacent_node> > adjacent_nodes;
