@@ -20,6 +20,9 @@ public:
     auto add_tic(int32_t id, int32_t weight, int32_t min, int32_t max) -> void;
     auto add_tac(int32_t id, int32_t weight) -> void;
     auto to_string() const -> const std::string;
+    auto generate_weight_map() -> void;
+    auto num_lehmers() -> size_t;
+    auto generate_lehmer_for_idx(size_t idx) -> void;
 
 private:
     auto reset_edges() -> void;

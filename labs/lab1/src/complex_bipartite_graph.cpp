@@ -112,3 +112,50 @@ auto complex_bipartite_graph::get_tac_with_id(int32_t id) const -> std::shared_p
     std::shared_ptr<tac_node> nobody = 0;
     return nobody;
 }
+
+auto complex_bipartite_graph::generate_weight_map() -> void {
+
+}
+
+inline size_t factorial(size_t x) {
+  return (x == 1 ? x : x * factorial(x - 1));
+}
+
+auto complex_bipartite_graph::num_lehmers() -> size_t {
+    return factorial(tic_nodes.size());
+}
+
+auto complex_bipartite_graph::generate_lehmer_for_idx(size_t idx) -> void {
+
+    std::vector<size_t> lehmer_ids;
+    lehmer_ids.reserve(tic_nodes.size());
+
+    size_t index = idx;
+
+    std::transform(this->tic_nodes.begin(), this->tic_nodes.end(), std::back_inserter(lehmer_ids),
+                   [] (std::vector<std::shared_ptr<tic_node> >::value_type& node) {
+                       return node->get_id(); });
+
+    std::sort(lehmer_ids.begin(), lehmer_ids.end(), std::less<int32_t>());
+
+    size_t n = lehmer_ids.size();
+    uint32_t radix = 1;
+    for (uint32_t i=2; i<lehmer_ids.size(); ++i) { radix*= i; }
+
+    auto beg = lehmer_ids.begin();
+    for (uint32_t i=0; i<n; ++i) {
+        int32_t digit = index / radix;
+        std::rotate(beg, beg + digit, beg + digit + 1);
+        ++beg;
+        index %= radix;
+        if (i + 1 != n) {
+            radix /= (n - i - 1);
+        }
+    }
+
+    std::cout << "lehmer(" << idx << "): ";
+    for (const auto leh : lehmer_ids) {
+        std::cout << leh << " ";
+    }
+    std::cout << "\n";
+}
