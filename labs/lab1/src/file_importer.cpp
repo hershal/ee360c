@@ -118,9 +118,8 @@ auto file_importer::generate_graphs() -> void {
         /* std::cout << "instance: " << i << "\n"; */
         /* std::cout << graphs[i].to_string() << "\n"; */
         graphs[i].calculate_adjacency_lists();
+        graphs[i].generate_lehmers();
+        graphs[i].generate_weight_map();
     }
 
-    for (auto i=0; i<graphs[0].num_lehmers(); ++i) {
-        graphs[0].generate_lehmer_for_idx(i);    
-    }
 }

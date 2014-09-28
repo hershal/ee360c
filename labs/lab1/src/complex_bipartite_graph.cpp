@@ -28,10 +28,14 @@ auto complex_bipartite_graph::add_tac(
     tac_nodes.emplace_back(std::make_shared<tac_node>(id, weight));
 }
 
-auto complex_bipartite_graph::generate_data_structures() -> void {
+auto complex_bipartite_graph::generate_lehmers() -> void {
 
     /* Generate structures here */
     std::cout << "generating data structures\n";
+
+    for (auto i=0; i<num_lehmers(); ++i) {
+        generate_lehmer_for_idx(i);    
+    }
 }
 
 auto complex_bipartite_graph::mwmcm() -> void {
@@ -53,23 +57,22 @@ auto complex_bipartite_graph::calculate_adjacency_lists() -> void {
         }
     }
 
+    for (auto tic : tic_nodes) { tic->sort_adjacent_nodes(); }
+    for (auto tac : tac_nodes) { tac->sort_adjacent_nodes(); }
+
     for (const auto tic : tic_nodes) {
         std::cout << "tic (" << tic->get_id() <<  ")\n";
         std::cout << "calculated " << tic->get_adjacent_nodes().size() << " adjacent nodes\n";
         for (const auto adj : tic->get_adjacent_nodes()) {
-            std::cout << "    adj(" << adj->node->get_id() << ")\n";
+            std::cout << "    adj(" << adj->node->get_id() << ", " << adj->edge_weight << ")\n";
         }
     }
 }
 
-auto complex_bipartite_graph::reset_edges() -> void {
-    for (auto tic : tic_nodes) {
-        tic->reset_adjacency_enabled();
-    }
+auto complex_bipartite_graph::reset() -> void {
 
-    for (auto tac : tac_nodes) {
-        tac->reset_adjacency_enabled();
-    }
+    for (auto tic : tic_nodes) { tic->reset(); }
+    for (auto tac : tac_nodes) { tac->reset(); }
 }
 
 auto complex_bipartite_graph::to_string() const
@@ -115,6 +118,37 @@ auto complex_bipartite_graph::get_tac_with_id(int32_t id) const -> std::shared_p
 
 auto complex_bipartite_graph::generate_weight_map() -> void {
 
+    for (const auto idxlehmer : index_lehmer_map) {
+        const auto idx = idxlehmer.first;
+        const auto lehmer = idxlehmer.second;
+
+        reset();
+
+        int32_t tot_weight = 0;
+        std::map<int32_t, int32_t> tic_tac_association;
+
+        /* TODO: What if two edges have the same weight?  */
+        for (const auto id : lehmer) {
+            const auto tic = get_tic_with_id(id);
+
+            /* The vector is sorted */
+            for (auto adj_node : tic->get_adjacent_nodes()) {
+                /* Picked the highest one */
+                if (tic->is_enabled() && adj_node->node->is_enabled()) {
+                    tic->disable();
+                    adj_node->node->disable();
+                    tic_tac_association[id] = adj_node->node->get_id();
+                    tot_weight += adj_node->edge_weight;
+                }
+            }
+        }
+        
+        std::cout << idx << "(" << tot_weight << ")" << ": ";
+        for (const auto assoc : tic_tac_association) {
+            std::cout << assoc.first << "->" << assoc.second << " ";
+        }
+        std::cout << "\n";
+    }
 }
 
 inline size_t factorial(size_t x) {
@@ -127,7 +161,7 @@ auto complex_bipartite_graph::num_lehmers() -> size_t {
 
 auto complex_bipartite_graph::generate_lehmer_for_idx(size_t idx) -> void {
 
-    std::vector<size_t> lehmer_ids;
+    std::vector<int32_t> lehmer_ids;
     lehmer_ids.reserve(tic_nodes.size());
 
     size_t index = idx;
@@ -152,6 +186,8 @@ auto complex_bipartite_graph::generate_lehmer_for_idx(size_t idx) -> void {
             radix /= (n - i - 1);
         }
     }
+
+    index_lehmer_map[idx] = lehmer_ids;
 
     std::cout << "lehmer(" << idx << "): ";
     for (const auto leh : lehmer_ids) {
