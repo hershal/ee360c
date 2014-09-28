@@ -1,3 +1,5 @@
+/*! Tic Node header for EE360C Lab 1 */
+
 #ifndef TIC_NODE_H
 #define TIC_NODE_H
 
@@ -13,6 +15,6 @@ public:
 private:
     int32_t min;
     int32_t max;
-}
+};
 
 #endif  /* TAC_NODE_H */

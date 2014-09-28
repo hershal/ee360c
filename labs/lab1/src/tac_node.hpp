@@ -1,26 +1,33 @@
+/*! Tac Node header for EE360C Lab 1 */
+
 #ifndef TAC_NODE_H
 #define TAC_NODE_H
 
 #include <set>
+#include <memory>
 
-typedef struct {
+typedef struct adjacent_node {
     int32_t edge_weight;
-    tac_node* node;
+    void* node;
+    bool enabled;
 } adjacent_node;
 
 class tac_node {
 public:
     tac_node(int32_t id, int32_t weight);
-    auto add_adjacent_node(tac_node node) -> void;
+    auto reset_adjacency_enabled() -> void;
 
-    auto get_adjacent_nodes() const -> const std::set<adjacent_node>;
+    auto add_adjacent_node(tac_node* node) -> void;
+
+    auto get_adjacent_nodes() const
+        -> const std::set<std::shared_ptr<adjacent_node> >;
     auto get_weight() const -> const int32_t;
     auto get_id() const -> const int32_t;
 
 private:
-    std::set<adjacent_node> adjacent_nodes;
+    std::set<std::shared_ptr<adjacent_node> > adjacent_nodes;
     int32_t id;
     int32_t weight;
-}
+};
 
 #endif  /* TAC_NODE_H */
