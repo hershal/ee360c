@@ -13,7 +13,7 @@
 
 class complex_bipartite_graph {
 public:
-    complex_bipartite_graph(uint32_t num_tics, uint32_t num_tacs);
+    complex_bipartite_graph(size_t num_tics, size_t num_tacs);
     auto mwmcm() -> void;
     auto generate_data_structures() -> void;
     auto calculate_adjacency_lists() -> void;
@@ -31,7 +31,8 @@ private:
     std::vector<std::shared_ptr<tac_node> > tac_nodes;
 
     /* Maps the index of the calculation to the weight-cardinality */
-    std::map<uint32_t, std::pair<uint32_t, int32_t> > weight_cardinality_map;
+    std::map<size_t, int32_t> index_weight_map;
+    std::map<size_t, std::vector<uint32_t> > index_lehmer__map;
 };
 
 #endif  /* COMPLEX_BIPARTITE_GRAPH_H */

@@ -8,7 +8,7 @@
 #include <sstream>
 
 complex_bipartite_graph::complex_bipartite_graph(
-    uint32_t num_tics, uint32_t num_tacs) {
+    size_t num_tics, size_t num_tacs) {
 
     tic_nodes.reserve(num_tics);
     tic_nodes.reserve(num_tacs);
