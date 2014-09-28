@@ -70,7 +70,7 @@ auto file_importer::generate_graphs() -> void {
 
                     ++current_tac;
 
-                    if (current_tac == num_tacs) { 
+                    if (current_tac == num_tacs) {
                         pstate = kPSNumTicTac;
                         ++current_instance;
                     }
@@ -105,7 +105,7 @@ auto file_importer::generate_graphs() -> void {
                               << "current_tic/num_tics: " << current_tic << "/" << num_tics << "\n"
                               << "current_tac/num_tacs: " << current_tac << "/" << num_tacs << "\n";
                 }
-                
+
             }
         } catch (std::exception e) {
             std::cout << e.what() << "\n";
@@ -115,7 +115,8 @@ auto file_importer::generate_graphs() -> void {
     }
 
     for (auto i=0; i<graphs.size(); ++i) {
-        std::cout << "instance: " << i << "\n";
-        std::cout << graphs[i].to_string() << "\n";
+        /* std::cout << "instance: " << i << "\n"; */
+        /* std::cout << graphs[i].to_string() << "\n"; */
+        graphs[i].calculate_adjacency_lists();
     }
 }

@@ -15,17 +15,17 @@ complex_bipartite_graph::complex_bipartite_graph(
 }
 
 auto complex_bipartite_graph::add_tic(
-    int32_t id, int32_t weight, int32_t min, int32_t max) 
+    int32_t id, int32_t weight, int32_t min, int32_t max)
     -> void {
 
-    tic_nodes.emplace_back(id, min, max, weight);
+    tic_nodes.emplace_back(std::make_shared<tic_node>(id, min, max, weight));
 }
 
 auto complex_bipartite_graph::add_tac(
     int32_t id, int32_t weight)
     -> void {
 
-    tac_nodes.emplace_back(id, weight);
+    tac_nodes.emplace_back(std::make_shared<tac_node>(id, weight));
 }
 
 auto complex_bipartite_graph::generate_data_structures() -> void {
@@ -40,15 +40,35 @@ auto complex_bipartite_graph::mwmcm() -> void {
 
 auto complex_bipartite_graph::calculate_adjacency_lists() -> void {
     /* Calculate the adjacency lists */
+
+    for (auto tic : tic_nodes) {
+        for (auto tac : tac_nodes) {
+            if (tac->get_id() <= tic->get_max() && tac->get_id() >= tic->get_min()) {
+
+                std::cout << tic->get_id() << " -> " << tac->get_id() << "\n";
+
+                tic->add_adjacent_node(tac);
+                tac->add_adjacent_node(tic);
+            }
+        }
+    }
+
+    for (const auto tic : tic_nodes) {
+        std::cout << "tic (" << tic->get_id() <<  ")\n";
+        std::cout << "calculated " << tic->get_adjacent_nodes().size() << " adjacent nodes\n";
+        for (const auto adj : tic->get_adjacent_nodes()) {
+            std::cout << "    adj(" << adj->node->get_id() << ")\n";
+        }
+    }
 }
 
 auto complex_bipartite_graph::reset_edges() -> void {
     for (auto tic : tic_nodes) {
-        tic.reset_adjacency_enabled();
+        tic->reset_adjacency_enabled();
     }
 
     for (auto tac : tac_nodes) {
-        tac.reset_adjacency_enabled();
+        tac->reset_adjacency_enabled();
     }
 }
 
@@ -57,12 +77,38 @@ auto complex_bipartite_graph::to_string() const
 
     std::stringstream str;
     for (const auto tic : tic_nodes) {
-        str << tic.to_string() << "\n";
+        str << tic->to_string() << "\n";
     }
 
     for (const auto tac : tac_nodes) {
-        str << tac.to_string() << "\n";
+        str << tac->to_string() << "\n";
     }
 
     return str.str();
+}
+
+auto complex_bipartite_graph::get_tic_with_id(int32_t id) const -> std::shared_ptr<tic_node> {
+
+    /* node ids are supposed to be unique */
+    for(const auto tic : tic_nodes) {
+        if (tic->get_id() == id) {
+            return tic;
+        }
+    }
+
+    std::shared_ptr<tic_node> nobody = 0;
+    return nobody;
+}
+
+auto complex_bipartite_graph::get_tac_with_id(int32_t id) const -> std::shared_ptr<tac_node> {
+
+    /* node ids are supposed to be unique */
+    for(const auto tac : tac_nodes) {
+        if (tac->get_id() == id) {
+            return tac;
+        }
+    }
+
+    std::shared_ptr<tac_node> nobody = 0;
+    return nobody;
 }
