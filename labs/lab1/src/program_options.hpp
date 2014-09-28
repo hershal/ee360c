@@ -1,3 +1,6 @@
+/*! Program Options Parser Header for EE360C Lab 1 */
+/* This class has exit-powers */
+
 #ifndef PROGRAM_OPTIONS_H
 #define PROGRAM_OPTIONS_H
 
