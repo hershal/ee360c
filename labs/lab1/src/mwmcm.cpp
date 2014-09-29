@@ -10,7 +10,18 @@ mwmcm::mwmcm() {
 
 auto mwmcm::add_association(int32_t tic, int32_t tac, int32_t weight) -> void {
     tactic_map[tac] = tic;
+    tictac_map[tic] = tac;
     this->weight += weight;
+}
+
+auto mwmcm::get_tictac_map() const 
+    -> const std::map<int32_t, int32_t> {
+    return tictac_map;
+}
+
+auto mwmcm::get_tactic_map() const 
+    -> const std::map<int32_t, int32_t> {
+    return tactic_map;
 }
 
 auto mwmcm::get_weight() const -> const int32_t {
@@ -26,11 +37,4 @@ auto mwmcm::to_string() const -> const std::string {
         stb << " ";
     }
     return stb.str();
-}
-
-auto mwmcm::operator<(mwmcm other) const -> bool {
-    /* return weight < other.get_weight(); */
-
-    /* Stupid lexicographical order */
-    return to_string() < other.to_string();
 }

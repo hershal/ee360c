@@ -138,22 +138,21 @@ auto complex_bipartite_graph::generate_weight_map() -> void {
                     tic->disable();
                     adj_node->node->disable();
                     results.add_association(id, adj_node->node->get_id(), adj_node->edge_weight);
-                    tot_weight += adj_node->edge_weight;
                 }
             }
         }
         
         /* Since we're forced to use lexicographical order... */
-        weight_mwmcm_map[results.get_weight()].insert(results.to_string());
+        weight_mwmcm_map[results.get_weight()].insert(results);
     }
 
     const auto highest_match = weight_mwmcm_map.rbegin();
 
-    std::cout << "highest match" << highest_match->first << "\n";
+    std::cout << "highest match " << highest_match->first << "\n";
 
     std::cout << highest_match->second.size() << "\n";
     for (const auto match : highest_match->second) {
-        std::cout << match << "\n";
+        std::cout << match.to_string() << "\n";
     }
 }
 

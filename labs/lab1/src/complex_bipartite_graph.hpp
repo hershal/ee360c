@@ -36,7 +36,7 @@ private:
     std::vector<std::shared_ptr<tac_node> > tac_nodes;
 
     /* Maps the index of the calculation to the weight-cardinality */
-    std::map<int32_t, std::set<std::string, std::greater<std::string> > > weight_mwmcm_map;
+    std::map<int32_t, std::set<mwmcm, mwmcm::mwmcm_compare > > weight_mwmcm_map;
     std::map<size_t, int32_t> index_weight_map;
     std::map<size_t, std::vector<int32_t> > index_lehmer_map;
 };
