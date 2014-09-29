@@ -42,10 +42,10 @@ auto tac_node::get_adjacent_nodes() const
     return adjacent_nodes;
 }
 
-auto inline tac_node::get_weight() const
+auto tac_node::get_weight() const
     -> const int32_t { return this->weight; }
 
-auto inline tac_node::get_id() const
+auto tac_node::get_id() const
     -> const int32_t { return this->id; }
 
 auto tac_node::is_enabled() const
