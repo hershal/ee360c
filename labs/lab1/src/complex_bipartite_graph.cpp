@@ -38,7 +38,7 @@ auto complex_bipartite_graph::generate_lehmers() -> void {
     }
 }
 
-auto complex_bipartite_graph::mwmcm() -> void {
+auto complex_bipartite_graph::find_mwmcms() -> void {
     /* Do the MWMCM algorithm here */
 }
 
@@ -125,7 +125,7 @@ auto complex_bipartite_graph::generate_weight_map() -> void {
         reset();
 
         int32_t tot_weight = 0;
-        std::map<int32_t, int32_t> tic_tac_association;
+        mwmcm results;
 
         /* TODO: What if two edges have the same weight?  */
         for (const auto id : lehmer) {
@@ -137,17 +137,22 @@ auto complex_bipartite_graph::generate_weight_map() -> void {
                 if (tic->is_enabled() && adj_node->node->is_enabled()) {
                     tic->disable();
                     adj_node->node->disable();
-                    tic_tac_association[id] = adj_node->node->get_id();
+                    results.add_association(id, adj_node->node->get_id(), adj_node->edge_weight);
                     tot_weight += adj_node->edge_weight;
                 }
             }
         }
         
-        std::cout << idx << "(" << tot_weight << ")" << ": ";
-        for (const auto assoc : tic_tac_association) {
-            std::cout << assoc.first << "->" << assoc.second << " ";
-        }
-        std::cout << "\n";
+        /* Since we're forced to use lexicographical order... */
+        weight_mwmcm_map[results.get_weight()].insert(results.to_string());
+    }
+
+    const auto highest_match = weight_mwmcm_map.rbegin();
+
+    std::cout << "highest match" << highest_match->first << "\n";
+
+    for (const auto match : highest_match->second) {
+        std::cout << match << "\n";
     }
 }
 

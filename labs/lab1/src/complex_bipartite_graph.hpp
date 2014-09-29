@@ -5,16 +5,18 @@
 
 #include "tac_node.hpp"
 #include "tic_node.hpp"
+#include "mwmcm.hpp"
 
 #include <map>
-#include <utility>
 #include <vector>
+#include <set>
 #include <memory>
+#include <utility>
 
 class complex_bipartite_graph {
 public:
     complex_bipartite_graph(size_t num_tics, size_t num_tacs);
-    auto mwmcm() -> void;
+    auto find_mwmcms() -> void;
     auto generate_lehmers() -> void;
     auto calculate_adjacency_lists() -> void;
     auto add_tic(int32_t id, int32_t weight, int32_t min, int32_t max) -> void;
@@ -34,6 +36,7 @@ private:
     std::vector<std::shared_ptr<tac_node> > tac_nodes;
 
     /* Maps the index of the calculation to the weight-cardinality */
+    std::map<int32_t, std::set<std::string, std::greater<std::string> > > weight_mwmcm_map;
     std::map<size_t, int32_t> index_weight_map;
     std::map<size_t, std::vector<int32_t> > index_lehmer_map;
 };
