@@ -151,6 +151,7 @@ auto complex_bipartite_graph::generate_weight_map() -> void {
 
     std::cout << "highest match" << highest_match->first << "\n";
 
+    std::cout << highest_match->second.size() << "\n";
     for (const auto match : highest_match->second) {
         std::cout << match << "\n";
     }
