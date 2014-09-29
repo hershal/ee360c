@@ -24,8 +24,7 @@ public:
     auto to_string() const -> const std::string;
     auto generate_weight_map() -> void;
     auto num_lehmers() -> size_t;
-    auto generate_lehmer_for_idx(
-        size_t idx, std::vector<std::shared_ptr<tac_node> >* node_list) -> void;
+    auto generate_lehmer_for_idx(size_t idx) -> void;
 
 private:
     enum tictac {kUnset, kUseTics, kUseTacs};

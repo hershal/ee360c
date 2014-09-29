@@ -33,23 +33,14 @@ auto complex_bipartite_graph::generate_lehmers() -> void {
     /* Generate structures here */
     std::cout << "generating data structures\n";
 
-    std::vector<std::shared_ptr<tac_node> >* node_list;
-
     if (tic_nodes.size() > tac_nodes.size()) {
-        /* **** BEGIN UGLY **** */
-        /*     static cast      */
-        for (const std::shared_ptr<tic_node> &p : tic_nodes) {
-            node_list->push_back(std::shared_ptr<tac_node>(std::shared_ptr<void>(), p.get()));
-        }
         tictac_switch = kUseTics;
-        /* ****  ENG UGLY  **** */
     } else {
-        node_list = &tac_nodes;
         tictac_switch = kUseTacs;
     }
 
     for (auto i=0; i<num_lehmers(); ++i) {
-        generate_lehmer_for_idx(i, node_list);
+        generate_lehmer_for_idx(i);
     }
 }
 
@@ -145,7 +136,7 @@ auto complex_bipartite_graph::generate_weight_map() -> void {
         /* TODO: What if two edges have the same weight?  */
         for (const auto id : lehmer) {
 
-            std::shared_ptr<tac_node> node = get_tic_with_id(id);
+            std::shared_ptr<tac_node> node = 0;
 
             switch (tictac_switch) {
             case kUseTics: node = get_tic_with_id(id); break;
@@ -210,39 +201,47 @@ auto complex_bipartite_graph::num_lehmers() -> size_t {
     return factorial(tic_nodes.size());
 }
 
-auto complex_bipartite_graph::generate_lehmer_for_idx(
-    size_t idx, std::vector<std::shared_ptr<tac_node> >* node_list)
-    -> void {
+auto complex_bipartite_graph::generate_lehmer_for_idx(size_t idx) -> void {
 
     std::vector<int32_t> lehmer_ids;
 
-    lehmer_ids.reserve(node_list->size());
-
     size_t index = idx;
 
-    std::transform(node_list->begin(), node_list->end(), std::back_inserter(lehmer_ids),
-                   [] (std::vector<std::shared_ptr<tac_node> >::value_type& node) {
-                       return node->get_id(); });
-
-    std::sort(lehmer_ids.begin(), lehmer_ids.end(), std::less<int32_t>());
-
-    size_t n = lehmer_ids.size();
-    uint32_t radix = 1;
-    for (uint32_t i=2; i<lehmer_ids.size(); ++i) { radix*= i; }
-
-    auto beg = lehmer_ids.begin();
-    for (uint32_t i=0; i<n; ++i) {
-        int32_t digit = index / radix;
-        std::rotate(beg, beg + digit, beg + digit + 1);
-        ++beg;
-        index %= radix;
-        if (i + 1 != n) {
-            radix /= (n - i - 1);
-        }
+    switch(tictac_switch) {
+    case kUseTics: 
+        lehmer_ids.reserve(tic_nodes.size());
+        std::transform(tic_nodes.begin(), tic_nodes.end(), std::back_inserter(lehmer_ids),
+                       [] (std::vector<std::shared_ptr<tic_node> >::value_type& node) {
+                           return node->get_id(); });
+        break;
+    case kUseTacs:
+            lehmer_ids.reserve(tac_nodes.size());
+            std::transform(tac_nodes.begin(), tac_nodes.end(), std::back_inserter(lehmer_ids),
+                       [] (std::vector<std::shared_ptr<tac_node> >::value_type& node) {
+                           return node->get_id(); });
+        break;
+    case kUnset:
+        std::cout << "Please call generate_lehmers instead\n";
+        exit(1);
     }
+        std::sort(lehmer_ids.begin(), lehmer_ids.end(), std::less<int32_t>());
 
-    index_lehmer_map[idx] = lehmer_ids;
+        size_t n = lehmer_ids.size();
+        uint32_t radix = 1;
+        for (uint32_t i=2; i<lehmer_ids.size(); ++i) { radix*= i; }
 
+        auto beg = lehmer_ids.begin();
+        for (uint32_t i=0; i<n; ++i) {
+            int32_t digit = index / radix;
+            std::rotate(beg, beg + digit, beg + digit + 1);
+            ++beg;
+            index %= radix;
+            if (i + 1 != n) {
+                radix /= (n - i - 1);
+            }
+        }
+
+        index_lehmer_map[idx] = lehmer_ids;
     /* std::cout << "lehmer(" << idx << "): "; */
     for (const auto leh : lehmer_ids) {
         /* std::cout << leh << " "; */
