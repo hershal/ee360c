@@ -101,9 +101,12 @@ auto file_importer::generate_graphs() -> void {
                 } else {
                     std::cout << "Unknown specification error!\n"
                               << "Everything fell through. Some information:\n"
-                              << "current_instance/num_instances: " << current_instance << "/" << num_instances << "\n"
-                              << "current_tic/num_tics: " << current_tic << "/" << num_tics << "\n"
-                              << "current_tac/num_tacs: " << current_tac << "/" << num_tacs << "\n";
+                              << "current_instance/num_instances: "
+                              << current_instance << "/" << num_instances << "\n"
+                              << "current_tic/num_tics: " 
+                              << current_tic << "/" << num_tics << "\n"
+                              << "current_tac/num_tacs: " 
+                              << current_tac << "/" << num_tacs << "\n";
                 }
 
             }
@@ -115,8 +118,8 @@ auto file_importer::generate_graphs() -> void {
     }
 
     for (auto i=0; i<graphs.size(); ++i) {
-        /* std::cout << "instance: " << i << "\n"; */
-        /* std::cout << graphs[i].to_string() << "\n"; */
+        std::cout << "instance: " << i << "\n";
+        std::cout << graphs[i].to_string() << "\n";
         graphs[i].calculate_adjacency_lists();
         graphs[i].generate_lehmers();
         graphs[i].generate_weight_map();

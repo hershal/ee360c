@@ -24,14 +24,17 @@ public:
     auto to_string() const -> const std::string;
     auto generate_weight_map() -> void;
     auto num_lehmers() -> size_t;
-    auto generate_lehmer_for_idx(size_t idx) -> void;
+    auto generate_lehmer_for_idx(
+        size_t idx, std::vector<std::shared_ptr<tac_node> >* node_list) -> void;
 
 private:
+    enum tictac {kUnset, kUseTics, kUseTacs};
     auto reset() -> void;
 
     auto get_tic_with_id(int32_t id) const -> std::shared_ptr<tic_node>;
     auto get_tac_with_id(int32_t id) const -> std::shared_ptr<tac_node>;
 
+    tictac tictac_switch = kUnset;
     std::vector<std::shared_ptr<tic_node> > tic_nodes;
     std::vector<std::shared_ptr<tac_node> > tac_nodes;
 

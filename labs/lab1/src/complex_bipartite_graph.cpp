@@ -33,8 +33,23 @@ auto complex_bipartite_graph::generate_lehmers() -> void {
     /* Generate structures here */
     std::cout << "generating data structures\n";
 
+    std::vector<std::shared_ptr<tac_node> >* node_list;
+
+    if (tic_nodes.size() > tac_nodes.size()) {
+        /* **** BEGIN UGLY **** */
+        /*     static cast      */
+        for (const std::shared_ptr<tic_node> &p : tic_nodes) {
+            node_list->push_back(std::shared_ptr<tac_node>(std::shared_ptr<void>(), p.get()));
+        }
+        tictac_switch = kUseTics;
+        /* ****  ENG UGLY  **** */
+    } else {
+        node_list = &tac_nodes;
+        tictac_switch = kUseTacs;
+    }
+
     for (auto i=0; i<num_lehmers(); ++i) {
-        generate_lehmer_for_idx(i);    
+        generate_lehmer_for_idx(i, node_list);
     }
 }
 
@@ -49,7 +64,7 @@ auto complex_bipartite_graph::calculate_adjacency_lists() -> void {
         for (auto tac : tac_nodes) {
             if (tac->get_id() <= tic->get_max() && tac->get_id() >= tic->get_min()) {
 
-                std::cout << tic->get_id() << " -> " << tac->get_id() << "\n";
+                /* std::cout << tic->get_id() << " -> " << tac->get_id() << "\n"; */
 
                 tic->add_adjacent_node(tac);
                 tac->add_adjacent_node(tic);
@@ -61,10 +76,10 @@ auto complex_bipartite_graph::calculate_adjacency_lists() -> void {
     for (auto tac : tac_nodes) { tac->sort_adjacent_nodes(); }
 
     for (const auto tic : tic_nodes) {
-        std::cout << "tic (" << tic->get_id() <<  ")\n";
-        std::cout << "calculated " << tic->get_adjacent_nodes().size() << " adjacent nodes\n";
+        /* std::cout << "tic (" << tic->get_id() <<  ")\n"; */
+        /* std::cout << "calculated " << tic->get_adjacent_nodes().size() << " adjacent nodes\n"; */
         for (const auto adj : tic->get_adjacent_nodes()) {
-            std::cout << "    adj(" << adj->node->get_id() << ", " << adj->edge_weight << ")\n";
+            /* std::cout << "    adj(" << adj->node->get_id() << ", " << adj->edge_weight << ")\n"; */
         }
     }
 }
@@ -129,20 +144,44 @@ auto complex_bipartite_graph::generate_weight_map() -> void {
 
         /* TODO: What if two edges have the same weight?  */
         for (const auto id : lehmer) {
-            const auto tic = get_tic_with_id(id);
+
+            std::shared_ptr<tac_node> node = get_tic_with_id(id);
+
+            switch (tictac_switch) {
+            case kUseTics: node = get_tic_with_id(id); break;
+            case kUseTacs: node = get_tac_with_id(id); break;
+            default:
+                std::cout << "Please generate lehmers before trying to run...\n";
+                exit(1);
+            }
 
             /* The vector is sorted */
-            for (auto adj_node : tic->get_adjacent_nodes()) {
+            for (auto adj_node : node->get_adjacent_nodes()) {
                 /* Picked the highest one */
-                if (tic->is_enabled() && adj_node->node->is_enabled()) {
-                    tic->disable();
+                if (node->is_enabled() && adj_node->node->is_enabled()) {
+                    node->disable();
                     adj_node->node->disable();
-                    results.add_association(id, adj_node->node->get_id(), adj_node->edge_weight);
+
+                    switch (tictac_switch) {
+                    case kUseTics:
+                        results.add_association(id,
+                                                adj_node->node->get_id(),
+                                                adj_node->edge_weight);
+                        break;
+                    case kUseTacs:
+                        results.add_association(adj_node->node->get_id(),
+                                                id,
+                                                adj_node->edge_weight);
+                        break;
+                    default:
+                        std::cout << "Please generate lehmers before trying to run...\n";
+                        exit(1);
+                    }
                 }
             }
         }
-        
-        /* Since we're forced to use lexicographical order... */
+
+        /* To enforce sortin */
         weight_mwmcm_map[results.get_weight()].insert(results);
     }
 
@@ -161,18 +200,28 @@ inline size_t factorial(size_t x) {
 }
 
 auto complex_bipartite_graph::num_lehmers() -> size_t {
+            switch (tictac_switch) {
+            case kUseTics: return factorial(tic_nodes.size());
+            case kUseTacs: return factorial(tac_nodes.size());
+            default:
+                std::cout << "Please generate lehmers before trying to run...\n";
+                exit(1);
+            }
     return factorial(tic_nodes.size());
 }
 
-auto complex_bipartite_graph::generate_lehmer_for_idx(size_t idx) -> void {
+auto complex_bipartite_graph::generate_lehmer_for_idx(
+    size_t idx, std::vector<std::shared_ptr<tac_node> >* node_list)
+    -> void {
 
     std::vector<int32_t> lehmer_ids;
-    lehmer_ids.reserve(tic_nodes.size());
+
+    lehmer_ids.reserve(node_list->size());
 
     size_t index = idx;
 
-    std::transform(this->tic_nodes.begin(), this->tic_nodes.end(), std::back_inserter(lehmer_ids),
-                   [] (std::vector<std::shared_ptr<tic_node> >::value_type& node) {
+    std::transform(node_list->begin(), node_list->end(), std::back_inserter(lehmer_ids),
+                   [] (std::vector<std::shared_ptr<tac_node> >::value_type& node) {
                        return node->get_id(); });
 
     std::sort(lehmer_ids.begin(), lehmer_ids.end(), std::less<int32_t>());
@@ -194,9 +243,9 @@ auto complex_bipartite_graph::generate_lehmer_for_idx(size_t idx) -> void {
 
     index_lehmer_map[idx] = lehmer_ids;
 
-    std::cout << "lehmer(" << idx << "): ";
+    /* std::cout << "lehmer(" << idx << "): "; */
     for (const auto leh : lehmer_ids) {
-        std::cout << leh << " ";
+        /* std::cout << leh << " "; */
     }
-    std::cout << "\n";
+    /* std::cout << "\n"; */
 }
