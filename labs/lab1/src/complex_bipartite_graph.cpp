@@ -44,8 +44,15 @@ auto complex_bipartite_graph::generate_lehmers() -> void {
     }
 }
 
-auto complex_bipartite_graph::find_mwmcms() -> void {
+auto complex_bipartite_graph::find_mwmcms()
+    -> std::map<int32_t, std::set<mwmcm, mwmcm::mwmcm_compare > > {
+
     /* Do the MWMCM algorithm here */
+    calculate_adjacency_lists();
+    generate_lehmers();
+    generate_weight_map();
+
+    return weight_mwmcm_map;
 }
 
 auto complex_bipartite_graph::calculate_adjacency_lists() -> void {
@@ -172,7 +179,7 @@ auto complex_bipartite_graph::generate_weight_map() -> void {
             }
         }
 
-        /* To enforce sortin */
+        /* To enforce sorting */
         weight_mwmcm_map[results.get_weight()].insert(results);
     }
 
@@ -208,7 +215,7 @@ auto complex_bipartite_graph::generate_lehmer_for_idx(size_t idx) -> void {
     size_t index = idx;
 
     switch(tictac_switch) {
-    case kUseTics: 
+    case kUseTics:
         lehmer_ids.reserve(tic_nodes.size());
         std::transform(tic_nodes.begin(), tic_nodes.end(), std::back_inserter(lehmer_ids),
                        [] (std::vector<std::shared_ptr<tic_node> >::value_type& node) {

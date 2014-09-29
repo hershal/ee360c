@@ -30,10 +30,12 @@ program_options::program_options(int32_t ac, char** av) {
 auto program_options::process_options(int32_t ac, char** av) -> void {
 
     std::vector<std::string> input_files;
+    std::string output_dir;
 
     po::options_description desc("Allowed options");
     desc.add_options()
         ("input-file,i", po::value<std::vector<std::string> >(), "input file(s)")
+        ("output-dir,o", po::value<std::string>(), "output directory")
         ("help,h", "produce this help message");
 
     /* Add the "input-file" flag as the implicit option */
@@ -56,19 +58,26 @@ auto program_options::process_options(int32_t ac, char** av) -> void {
         exit(1);
     }
 
+    if (vm.count("output-dir")) {
+        output_dir = vm["output-dir"].as<std::string>();
+        std::cout << "outputting files to: " << output_dir << "\n";
+    } else {
+        output_dir = "";
+    }
+
     /* Signal an error if a file is not found */
     for (const auto file : input_files) {
         if (!boost::filesystem::exists(file)) {
             std::cout << "File not found: " << file << "\n";
             exit(1);
         }
-        std::string replaced_ext = replace_file_extension(file, ".out");
+        std::string replaced_ext = replace_file_extension(file, output_dir, ".out");
         input_output_file_map[file] = replaced_ext;
     }
 }
 
 auto program_options::replace_file_extension(
-    std::string file, std::string extension) const
+    std::string file, std::string output_dir, std::string extension) const
     -> const std::string {
 
     size_t last_slash = file.find_last_of("/");
@@ -78,7 +87,7 @@ auto program_options::replace_file_extension(
         last_slash = 0;
     }
 
-    std::string dirname_substr = file.substr(0, last_slash);
+    std::string dirname_substr = output_dir == "" ? file.substr(0, last_slash) : output_dir;
     std::string basename_substr = file.substr(last_slash);
 
     size_t last_dot = basename_substr.find_last_of(".");

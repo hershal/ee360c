@@ -103,9 +103,9 @@ auto file_importer::generate_graphs() -> void {
                               << "Everything fell through. Some information:\n"
                               << "current_instance/num_instances: "
                               << current_instance << "/" << num_instances << "\n"
-                              << "current_tic/num_tics: " 
+                              << "current_tic/num_tics: "
                               << current_tic << "/" << num_tics << "\n"
-                              << "current_tac/num_tacs: " 
+                              << "current_tac/num_tacs: "
                               << current_tac << "/" << num_tacs << "\n";
                 }
 
@@ -117,12 +117,19 @@ auto file_importer::generate_graphs() -> void {
 
     }
 
+    std::ofstream fout;
+    fout.open(file_output);
     for (auto i=0; i<graphs.size(); ++i) {
         std::cout << "instance: " << i << "\n";
         std::cout << graphs[i].to_string() << "\n";
-        graphs[i].calculate_adjacency_lists();
-        graphs[i].generate_lehmers();
-        graphs[i].generate_weight_map();
-    }
+        const auto mwmcms = graphs[i].find_mwmcms();
 
+        std::cout << "writing output\n";
+        const auto highest_match = mwmcms.rbegin();
+        fout << highest_match->second.size() << "\n";
+        for (const auto match : highest_match->second) {
+            fout << match.to_string() << "\n";
+        }
+    }
+    fout.close();
 }

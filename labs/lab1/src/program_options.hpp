@@ -14,7 +14,7 @@ public:
         -> const std::map<std::string, std::string>;
 private:
     auto replace_file_extension
-    (std::string file, std::string extension) const
+    (std::string file, std::string output_dir, std::string extension) const
         -> const std::string;
 
     int32_t ac;
