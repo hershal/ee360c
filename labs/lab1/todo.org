@@ -1,15 +1,28 @@
-* [0/4] Build classes
-** TODO tac_node
+* [4/4] Build classes
+** DONE tac_node
 Data values:
 - id (uint32_t)
 - weight (uint32_t)
 - adjacent_nodes (struct)
   - node ids (uint32_t)
   - node pointers (base_node*)
-** TODO tic_node subclasses tac_node
+** DONE tic_node subclasses tac_node
 Data Values:
 - min (uint32_t)
 - max (uint32_t)
-** TODO tac_node concrete
-** TODO Input file parser
-*** TODO Needs to generate the structures
+** DONE tac_node concrete
+** DONE Input file parser
+*** DONE Needs to generate the structures
+* Notes
+I noticed that the third test case in large/file0.out writes:
+
+1 1:0 8:4 17:17
+
+But the weight for that MWMCM turns out to be 2. My program found a
+MWMCM whose weight is 13 (17:0 8:4). If we're prioritizing weight over
+cardinality, then why does the large/file0 test case specify a MWMCM
+which has a lower weight than what is possible in the entire match
+space?
+** Results
+GENERATE MAXIMUM CARDINALITY!
+Max cardinality takes precedence to weight
