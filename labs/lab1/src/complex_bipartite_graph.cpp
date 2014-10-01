@@ -131,7 +131,6 @@ auto complex_bipartite_graph::generate_weight_map() -> void {
 
         reset();
 
-        int32_t tot_weight = 0;
         mwmcm results;
 
         /* TODO: What if two edges have the same weight?  */
@@ -171,7 +170,9 @@ auto complex_bipartite_graph::generate_weight_map() -> void {
                     }
                 }
             }
+            std::cout << " " << id;
         }
+        std::cout << " (" << results.get_weight() << ")\n";
 
         /* To enforce sorting */
         weight_mwmcm_map[results.get_weight()].insert(results);
