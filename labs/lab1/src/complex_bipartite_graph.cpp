@@ -36,8 +36,8 @@ auto complex_bipartite_graph::calculate_adjacency_lists() -> void {
             if (tac->get_id() <= tic->get_max()
                 && tac->get_id() >= tic->get_min()) {
 
-                std::cout << tic->get_id() << " -> "
-                          << tac->get_id() << "\n";
+                /* std::cout << tic->get_id() << " -> " */
+                /*           << tac->get_id() << "\n"; */
 
                 tic->add_adjacent_node(tac);
                 tac->add_adjacent_node(tic);
@@ -49,8 +49,8 @@ auto complex_bipartite_graph::calculate_adjacency_lists() -> void {
     for (auto tac : tac_nodes) { tac->sort_adjacent_nodes(); }
 
     for (const auto tic : tic_nodes) {
-        /* std::cout << "tic (" << tic->get_id() <<  ")\n"; */
-        std::cout << "calculated "
+        std::cout << "node (" << tic->get_id() <<  ") "
+                  << "calculated "
                   << tic->get_adjacent_nodes().size()
                   << " adjacent nodes\n";
         for (const auto adj : tic->get_adjacent_nodes()) {
@@ -118,6 +118,7 @@ auto complex_bipartite_graph::get_tac_with_id(int32_t id) const
         }
     }
 
+    /* To appease the static analyzer */
     std::shared_ptr<tac_node> nobody = 0;
     return nobody;
 }
