@@ -22,11 +22,11 @@ auto tac_node::add_adjacent_node(std::shared_ptr<tac_node> node) -> void {
     adj_node.node = node;
     adj_node.edge_weight = node->get_weight() + this->weight;
     adjacent_nodes.push_back(std::make_shared<adjacent_node>(adj_node));
-    std::cout << "adding adjacent node to "
-              << id << ": "
-              << node->get_id() << " "
-              << weight << "     "
-              << adjacent_nodes.size() << "\n";
+    /* std::cout << "adding adjacent node to " */
+    /*           << id << ": " */
+    /*           << node->get_id() << " " */
+    /*           << weight << "     " */
+    /*           << adjacent_nodes.size() << "\n"; */
 }
 
 auto tac_node::sort_adjacent_nodes() -> void {

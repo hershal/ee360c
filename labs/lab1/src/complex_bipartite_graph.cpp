@@ -210,28 +210,28 @@ auto complex_bipartite_graph::generate_lehmer_for_idx(size_t idx) -> void {
         std::cout << "Please call generate_lehmers instead\n";
         exit(1);
     }
-        std::sort(lehmer_ids.begin(), lehmer_ids.end(), std::less<int32_t>());
+    std::sort(lehmer_ids.begin(), lehmer_ids.end(), std::less<int32_t>());
 
-        size_t n = lehmer_ids.size();
-        uint32_t radix = 1;
-        for (uint32_t i=2; i<lehmer_ids.size(); ++i) { radix*= i; }
+    size_t n = lehmer_ids.size();
+    uint32_t radix = 1;
+    for (uint32_t i=2; i<lehmer_ids.size(); ++i) { radix*= i; }
 
-        auto beg = lehmer_ids.begin();
-        for (uint32_t i=0; i<n; ++i) {
-            int32_t digit = index / radix;
-            std::rotate(beg, beg + digit, beg + digit + 1);
-            ++beg;
-            index %= radix;
-            if (i + 1 != n) {
-                radix /= (n - i - 1);
-            }
+    auto beg = lehmer_ids.begin();
+    for (uint32_t i=0; i<n; ++i) {
+        int32_t digit = index / radix;
+        std::rotate(beg, beg + digit, beg + digit + 1);
+        ++beg;
+        index %= radix;
+        if (i + 1 != n) {
+            radix /= (n - i - 1);
         }
-
-        index_lehmer_map[idx] = lehmer_ids;
-    /* std::cout << "lehmer(" << idx << "): "; */
-    for (const auto leh : lehmer_ids) {
-        /* std::cout << leh << " "; */
     }
+
+    index_lehmer_map[idx] = lehmer_ids;
+    /* std::cout << "lehmer(" << idx << "): "; */
+    /* for (const auto leh : lehmer_ids) { */
+    /*     std::cout << leh << " "; */
+    /* } */
     /* std::cout << "\n"; */
 }
 
