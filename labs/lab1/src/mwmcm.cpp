@@ -5,13 +5,15 @@
 #include <sstream>
 
 mwmcm::mwmcm() {
-    weight = 0;
+    this->weight = 0;
+    this->cardinality = 0;
 }
 
 auto mwmcm::add_association(int32_t tic, int32_t tac, int32_t weight) -> void {
     tactic_map[tac] = tic;
     tictac_map[tic] = tac;
     this->weight += weight;
+    ++this->cardinality;
 }
 
 auto mwmcm::get_tictac_map() const 
@@ -26,6 +28,10 @@ auto mwmcm::get_tactic_map() const
 
 auto mwmcm::get_weight() const -> const int32_t {
     return weight;
+}
+
+auto mwmcm::get_cardinality() const -> const size_t {
+    return cardinality;
 }
 
 auto mwmcm::to_string() const -> const std::string {

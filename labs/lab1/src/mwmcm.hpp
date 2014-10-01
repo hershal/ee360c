@@ -52,6 +52,7 @@ public:
     auto add_association(int32_t tic, int32_t tac, int32_t weight) -> void;
 
     auto get_weight() const -> const int32_t;
+    auto get_cardinality() const -> const size_t;
     auto get_tictac_map() const -> const std::map<int32_t, int32_t>;
     auto get_tactic_map() const -> const std::map<int32_t, int32_t>;
 
@@ -61,6 +62,7 @@ private:
     std::map<int32_t, int32_t> tactic_map;
     std::map<int32_t, int32_t> tictac_map;
     int32_t weight;
+    size_t cardinality;
 };
 
 #endif  /* MWMCM_WRAPPER_H */

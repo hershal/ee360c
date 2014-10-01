@@ -125,9 +125,11 @@ auto file_importer::generate_graphs() -> void {
         const auto mwmcms = graphs[i].find_mwmcms();
 
         std::cout << "writing output\n";
-        const auto highest_match = mwmcms.rbegin();
-        fout << highest_match->second.size() << "\n";
-        for (const auto match : highest_match->second) {
+
+        const auto highest_cardinality_match = mwmcms.rbegin();
+        const auto highest_weight_match = highest_cardinality_match->second.rbegin();
+        fout << highest_weight_match->second.size() << "\n";
+        for (const auto match : highest_weight_match->second) {
             fout << match.to_string() << "\n";
         }
     }

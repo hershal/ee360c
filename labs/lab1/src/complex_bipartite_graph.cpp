@@ -62,14 +62,14 @@ auto complex_bipartite_graph::calculate_adjacency_lists() -> void {
 }
 
 auto complex_bipartite_graph::find_mwmcms()
-    -> std::map<int32_t, std::set<mwmcm, mwmcm::mwmcm_compare > > {
+    -> std::map<size_t, std::map<int32_t, std::set<mwmcm, mwmcm::mwmcm_compare> > > {
 
     /* Do the MWMCM algorithm here */
     calculate_adjacency_lists();
     generate_lehmers();
     generate_weight_map();
 
-    return weight_mwmcm_map;
+    return cardinality_weight_mwmcm_map;
 }
 
 auto complex_bipartite_graph::generate_lehmers() -> void {
@@ -170,20 +170,23 @@ auto complex_bipartite_graph::generate_weight_map() -> void {
                     }
                 }
             }
-            std::cout << " " << id;
+            /* std::cout << " " << id; */
         }
-        std::cout << " (" << results.get_weight() << ")\n";
+        /* std::cout << " (w=" << results.get_weight() */
+        /*           << "; c=" << results.get_cardinality() << ")\n"; */
 
         /* To enforce sorting */
-        weight_mwmcm_map[results.get_weight()].insert(results);
+        cardinality_weight_mwmcm_map[results.get_cardinality()][results.get_weight()].insert(results);
     }
 
-    const auto highest_match = weight_mwmcm_map.rbegin();
+    const auto highest_cardinality_match = cardinality_weight_mwmcm_map.rbegin();
+    const auto highest_weight_match = highest_cardinality_match->second.rbegin();
 
-    std::cout << "highest match " << highest_match->first << "\n";
+    std::cout << "highest match: w:" << highest_cardinality_match->first <<
+        " c:" << highest_weight_match->first << "\n";
 
-    std::cout << highest_match->second.size() << "\n";
-    for (const auto match : highest_match->second) {
+    std::cout << highest_weight_match->second.size() << "\n";
+    for (const auto match : highest_weight_match->second) {
         std::cout << match.to_string() << "\n";
     }
 }
