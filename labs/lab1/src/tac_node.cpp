@@ -31,7 +31,7 @@ auto tac_node::add_adjacent_node(std::shared_ptr<tac_node> node) -> void {
 
 auto tac_node::sort_adjacent_nodes() -> void {
     std::sort(adjacent_nodes.begin(), adjacent_nodes.end(),
-              [] (const std::shared_ptr<adjacent_node>& l, 
+              [] (const std::shared_ptr<adjacent_node>& l,
                   const std::shared_ptr<adjacent_node>& r) {
                   return l.get()->edge_weight > r.get()->edge_weight;
               });
