@@ -1,0 +1,141 @@
+\documentclass{article}
+\title{EE360C Programming Homework 1}
+\author{Hershal Bhave (hb6279)}
+\date{Due October 1, 2014}
+
+\begin{document}
+\maketitle
+
+\section{Pseudo-Code}
+The pseudo-code for finding a MWMCM for a CBG with potentially
+negative weights is not as intuitive as one would think; thus a
+brute-force approach was used. \verb|vector_of_cbgs| is a list of
+CBGs, \verb|tic_nodes| is a vector of \verb|tic_node|, and
+\verb|tac_nodes| is a vector of \verb|tac_nodes|. The brute-force
+approach I used was to calculate each and every permutation of the
+order of nodes on one side of the graph picking the maximum edge
+weight for a node on the other side of the graph. The side that is
+chosen for this is dependent on which side has more nodes (i.e. if
+there are more tics than tacs, then I generate all the possible
+permutations of tics visiting tacs, and vice versa if there are more
+tacs than tics). I keep track of these permutations by encoding them
+in Lehmer Codes, which can uniquly identify a specific permutation by
+a simple index. This can be converted back and forth, but since I'm
+storing all the Lehmer Codes, I don't have to worry too much about
+going from Lehmer Code to index (I compute the other way around). Once
+these codes have been computed, I then start connecting nodes. I do
+this by going through the Lehmer permutation and selecting the
+connecting node with the maximum weight. I add that to my results
+package and disable the node on the other side. This makes sure that
+no other node can potentially try to access the node I just used. The
+results package keeps track of the cardinality and overall weight of
+the CBG match. Once all the nodes have been iterated through, I then
+add the results package to a sorted map of results, first sorted by
+cardinality and then by weight. Once all the major-nodes have been
+iterated through, I simply have to inspect the first index of the
+generated cardinality-weight-map to get the MWMCM. This is done for
+each instance in the test file.
+
+{
+  \footnotesize
+\begin{verbatim}
+auto find_mwmcms() ->
+    std::map<size_t, std::map<int32_t, std::set<mwmcm, mwmcm::mwmcm_compare> > > {
+
+        calculate_adjacency_lists();
+        generate_lehmers();
+        generate_cardinality_weight_map();
+}
+
+auto complex_bipartite_graph::calculate_adjacency_lists() -> void {
+    /* Calculate the adjacency lists */
+    for (auto tic : tic_nodes) {
+        for (auto tac : tac_nodes) {
+            if (tac->get_id() <= tic->get_max()
+                && tac->get_id() >= tic->get_min()) {
+                tic->add_adjacent_node(tac);
+                tac->add_adjacent_node(tic);
+            }
+        }
+    }
+    /* Each node's adjacency list is sorted by weight */
+    for (auto tic : tic_nodes) { tic->sort_adjacent_nodes(); }
+    for (auto tac : tac_nodes) { tac->sort_adjacent_nodes(); }
+}
+
+auto complex_bipartite_graph::generate_lehmers() -> void {
+
+    /* Generate structures here */
+    std::cout << "generating data structures\n";
+
+    if (tic_nodes.size() < tac_nodes.size()) {
+        tictac_switch = kUseTics;
+    } else {
+        tictac_switch = kUseTacs;
+    }
+
+    for (auto i=0; i<num_lehmers(); ++i) {
+        generate_lehmer_for_idx(i);
+    }
+}
+
+auto complex_bipartite_graph::generate_cardinality_weight_map() -> void {
+
+    for (const auto idxlehmer : index_lehmer_map) {
+        const auto idx = idxlehmer.first;
+        const auto lehmer = idxlehmer.second;
+
+        reset();
+
+        mwmcm results;
+
+        /* TODO: What if two edges have the same weight?  */
+        for (const auto id : lehmer) {
+
+            std::shared_ptr<tac_node> node = 0;
+
+            switch (tictac_switch) {
+            case kUseTics: node = get_tic_with_id(id); break;
+            case kUseTacs: node = get_tac_with_id(id); break;
+            default:
+                std::cout << "Please generate lehmers first...\n";
+                exit(1);
+            }
+
+            /* The vector is sorted */
+            for (auto adj_node : node->get_adjacent_nodes()) {
+                /* Picked the highest one */
+                if (node->is_enabled() && adj_node->node->is_enabled()) {
+                    node->disable();
+                    adj_node->node->disable();
+
+                    switch (tictac_switch) {
+                    case kUseTics:
+                        results.add_association(id,
+                                                adj_node->node->get_id(),
+                                                adj_node->edge_weight);
+                        break;
+                    case kUseTacs:
+                        results.add_association(adj_node->node->get_id(),
+                                                id,
+                                                adj_node->edge_weight);
+                        break;
+                    default:
+                        std::cout << "Please generate lehmers first...\n";
+                        exit(1);
+                    }
+                }
+            }
+        }
+        /* To enforce sorting */
+        cardinality_weight_mwmcm_map[results.get_cardinality()]
+            [results.get_weight()].insert(results);
+    }
+}
+\end{verbatim}
+}
+
+\section{Runtime Complexity}
+Since this algorithm uses a brute force approach, the runtime is $\mathcal{O}(n!)$.
+
+\end{document}
