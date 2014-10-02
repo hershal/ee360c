@@ -4,6 +4,12 @@ hb6279
 
 EE360C Programming Lab 1
 
+**** !!NOTICE!! ****
+I'm currently trying to get it to compile under Linux, but have not
+gotten a binary yet. I have a Darwin-compiled binary using Clang/LLVM
+on OS X Mavericks. I'll update the package once I get a Linux 3.2
+binary. The code should remain the same
+
 **** DEPENDENCIES ****
 This project requires the following dependencies to build and run:
 - CMake >= 3.0
@@ -11,7 +17,8 @@ This project requires the following dependencies to build and run:
   - program_options
   - filesystem
   - system
-- GCC >= 4.2 or Clang > 6.0
+- Clang >= 3.5
+- GNU Make >= 4.0
 
 The documentation requires the following:
 - LaTeX 2e
@@ -20,7 +27,7 @@ The documentation requires the following:
 **** BUILDING ****
 Once you have the required dependencies, and are in the directory
 containing this README file, please do the following:
-> mkdir build && cd !$
+> mkdir -p build && cd !$
 > cmake ..
 > make lab1
 
