@@ -12,7 +12,31 @@ Data Values:
 - max (uint32_t)
 ** DONE tac_node concrete
 ** DONE Input file parser
-*** DONE Needs to generate the structures
+** DONE Needs to generate the structures
+** TODO Investigate:
+*** test-large
+2
+12:7 6:8 7:16 
+6:7 12:8 7:16 
+*** large
+6
+12:7 13:8 7:16
+12:7 6:8 7:16
+13:7 12:8 7:16
+13:7 6:8 7:16
+6:7 12:8 7:16
+6:7 13:8 7:16
+*** input
+5 3
+0 0 10 -4
+2 3 15 -7
+8 3 9 0
+11 2 16 -8
+13 1 16 5
+8 -4
+15 1
+19 -7
+
 * Notes
 I noticed that the third test case in large/file0.out writes:
 
