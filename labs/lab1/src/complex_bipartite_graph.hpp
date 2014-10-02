@@ -28,7 +28,7 @@ private:
     auto calculate_adjacency_lists() -> void;
     auto generate_lehmer_for_idx(size_t idx) -> void;
     auto generate_lehmers() -> void;
-    auto generate_weight_map() -> void;
+    auto generate_cardinality_weight_map() -> void;
     auto num_lehmers() -> size_t;
 
     auto get_tic_with_id(int32_t id) const -> std::shared_ptr<tic_node>;

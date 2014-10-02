@@ -67,7 +67,7 @@ auto complex_bipartite_graph::find_mwmcms()
     /* Do the MWMCM algorithm here */
     calculate_adjacency_lists();
     generate_lehmers();
-    generate_weight_map();
+    generate_cardinality_weight_map();
 
     return cardinality_weight_mwmcm_map;
 }
@@ -123,7 +123,7 @@ auto complex_bipartite_graph::get_tac_with_id(int32_t id) const
     return nobody;
 }
 
-auto complex_bipartite_graph::generate_weight_map() -> void {
+auto complex_bipartite_graph::generate_cardinality_weight_map() -> void {
 
     for (const auto idxlehmer : index_lehmer_map) {
         const auto idx = idxlehmer.first;
@@ -176,7 +176,8 @@ auto complex_bipartite_graph::generate_weight_map() -> void {
         /*           << "; c=" << results.get_cardinality() << ")\n"; */
 
         /* To enforce sorting */
-        cardinality_weight_mwmcm_map[results.get_cardinality()][results.get_weight()].insert(results);
+        cardinality_weight_mwmcm_map[results.get_cardinality()]
+            [results.get_weight()].insert(results);
     }
 
     const auto highest_cardinality_match = cardinality_weight_mwmcm_map.rbegin();
