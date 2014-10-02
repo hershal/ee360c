@@ -35,6 +35,9 @@ by default, build both the documentation and the source code.
 When completely compiled, the binary will be located in:
 ${YOUR_BUILD_DIR}/src-bin/lab1
 
+If you followed the instructions above, your build directory will be
+simply "build".
+
 The following options are supported:
   -i [ --input-file ] arg input file(s)
   -o [ --output-dir ] arg output directory
