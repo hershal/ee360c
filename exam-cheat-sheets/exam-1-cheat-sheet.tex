@@ -105,7 +105,7 @@
   \item[Asy Tight Bounds] \hfill\\
     $\Theta(g(n))=\{f(n): \exists c_1,c_2,n_0>0 \text{ st } 0 \le
     c_1g(n) \le f(n) \le c_2g(n) \quad\forall n \ge n_0\}$;
-    $\Rightarrow \lim_{n\rightarrow\infty}\frac{f(n)}{g(n)} = c}$;
+    $\Rightarrow \lim_{n\rightarrow\infty}\frac{f(n)}{g(n)} = c$;
     $a = b$
   \item[Asy Non-Tight Bounds $o$ and $\omega$] Replace $\le$ with $<$
   \item[General Rules for Complexity] Increasing order:
@@ -114,7 +114,7 @@
     in a min-heap is greater than its parent (that's it). The root is
     the min value. After every insertion the tree is rebalanced using
     \texttt{heapify\_up}.
-  \item[Fix Heap Order After Insertion] \\\hfill
+  \item[Fix Heap After Insertion] \hfill
 \begin{verbatim}
 heapify_up(H,i) {
   if (i > 1) {
@@ -125,7 +125,7 @@ heapify_up(H,i) {
 }  }  }
 \end{verbatim}
     Runs $\mathcal{O}(\log i)$.
-  \item[Fix Heap Order After Deletion] \\\hfill
+  \item[Fix Heap After Deletion] \hfill
 \begin{verbatim}
 heapify_down(H,i) {
   let n=length(H);
@@ -134,7 +134,8 @@ heapify_down(H,i) {
   } else if ((2*i) < n) {
     let left = 2*i;
     let right = 2*i+1;
-    let j = min(key(H(left)), key(H(right)));
+    let j = min(key(H(left)),
+                key(H(right)));
   } else if ((2*i) == n) {
     let j= 2*i;
   }
@@ -144,6 +145,31 @@ heapify_down(H,i) {
 }  }
 \end{verbatim}
     Runs $\mathcal{O}(\log n)$.
+  \item[Decision Trees] A Decision Tree is a ``full tree'' which
+    represents the comparisons between elements performed by a sorting
+    algorithm. Internal nodes are annotated $i:j$ for some $i$ and $j$
+    in $1 \le i, j \le n$ for $n$ elements in the input
+    sequence. Leaves are annotated by a permutation $\langle \pi(1),
+    \pi(2), \ldots, \pi(n)\rangle$. Executing a sorting algorithm
+    equates to tracing through the decision tree
+  \item[Log Rules] 
+    \begin{equation*}
+      \begin{aligned}
+        a &= b^{\log_b a} &
+        \log_c(ab) &= \log_c(a) + \log_c(b) \\
+        \log_b a &= \frac{\log_c a}{\log_c b} &
+        \log_b(1/a) &= -\log_b a \\
+        \log_b a &= \frac{1}{\log_a b} &
+        a^{\log_b c} &= c^{log_b a} \\
+        y = b^x &\Leftrightarrow x=\log_b y &
+      \end{aligned}
+    \end{equation*}
+  \item[Lower Bound For Worst-Case] The worst case nuber of
+    comparisons for a comparison sort algorithm is the height of its
+    decision tree, usually $\Omega(n\log n)$: We must determine the
+    height of a decision tree with $n!$ leaves. A binary tree of
+    height $h$ has no more than $2^h$ leaves, therefore $n!\le2^h$, so
+    $h\ge\log(n!) = \Omega(n\log n)$
   \end{description} % multicols
 \end{multicols}
-\end{document} 
+\end{document}
