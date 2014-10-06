@@ -1,0 +1,96 @@
+\documentclass[8pt]{article}
+
+\usepackage{mathtools}
+\usepackage{amsfonts}
+\usepackage{tabularx}
+\usepackage{mathabx}
+\usepackage{enumitem}
+\usepackage{caption}
+\usepackage{multicol}
+\usepackage{sectsty}
+\usepackage{extsizes}
+\usepackage{fancyhdr}
+\usepackage{enumerate}
+\usepackage[margin=1.5cm]{geometry}
+\usepackage{multirow}
+
+\pagestyle{fancyplain}
+
+% Try very hard not to break relational and binary operators (equations)
+\relpenalty=9999
+\binoppenalty=9999
+
+\newcommand{\dd}[1]{\mathrm{d}{#1}}
+\newcommand{\ddt}[1]{\frac{\dd{}}{\dd{#1}}}
+\newcommand{\dddt}[1]{\frac{\dd{}^2}{\dd{#1}^2}}
+
+\begin{document}
+
+\lhead{Hershal Bhave \quad\tiny{hb6279}}
+\rhead{EE360C Fall 2014 Exam 1 Cheat Sheet (Pedro Santacruz)}
+
+\begin{multicols}{2}
+  \begin{description}
+  \item[Directed Graph] $G$ is a pair $(V,E)$ where $V$ is a finite
+    set of vertices and $E$, the edges is is a subset of $V \times V$.
+  \item[Undirected Graph] $G$ is a pair $(V,E)$ where $V$ is a finite
+    set of vertices and $E$, the edges is is a set of unordered
+    pairs of edges $\{u,v\}$, where $u \not= v$.
+  \item[Incidency] If $(u,v)$ is an edge in digraph $G$, then $(u,v)$
+    is incident from $u$ (leaving) and incident to $v$ (entering). $v$
+    is said to be adjacent to $u$, not necessarily symmetric for
+    digraphs.
+  \item[Degree] Undirected graph: number of edges incident to
+    (entering) the vertex. Digraph: out-degree of a vertex the number
+    of edges leaving it; in-degree number of edges entering it.
+  \item[Paths] Length of a path is number of edges, $v$ is reachable
+    from $u$ if here is a path from $v$ to $u$. A path is a subpath of
+    itself. A path is simple if all vertices are distinct. Digraph
+    paths form cycles if $v_0 = v_k$, $k\ge 1$ in the path; $k\ge3$
+    for undirected graphs.
+  \item[Connected] Undirected is connected if each pair of vertices is
+    connected by a path (every pair of vertices are ``reachable'').
+  \item[Strongly Connected] Directed: if every two vertices are
+    reachable from one another (every pair of vertices are ``mutually
+    reachable''). A digraph is strongly connected if it has exactly
+    one strongly connected component.
+  \item[Isomorphic] $G=(V,E)$ is isomorphic to $G'=(V',E')$ is there
+    is a 1-1 onto function $f:V\rightarrow V'$ st $(u,v) \in E$ iff
+    $(f(u),f(v)) \in E'$.
+  \item[Proof by Induction] \hfill
+    \begin{enumerate}
+    \item Base Case: Show that $P(k_0)$ is true
+    \item Inductive Step: Assume $P(n)$ is true. Show that $P(n+1)$ is
+      true. Morph part of the $P(n+1)$ equation into $P(n)$.
+    \end{enumerate}
+  \item[Divisibility] $d$ divides $n$ ($n$ divisible by $d$): $d|n \Leftrightarrow
+    \exists k \in \mathbb{Z}\text{ st } n = dk$.
+  \item[Complete] Undirected, every pair of vertices is adjacent
+  \item[Bipartite Graph] Undirected, vertices can be partitioned into
+    $V_1$, $V_2$ st every edge is in the form $(x,y)$ where $x \in
+    V_1$ and $y \in V_2$.
+  \item[Forest] An acyclic undirected graph
+  \item[Tree] A connected, acyclic undirected graph
+  \item[DAG] Directed Acyclic Graph
+  \item[Multigraph] Like undirected, but can have multiple edges
+    between vertices and self-loops
+  \item[Hypergraph] Like undirected, each hyperedge can connect to an
+    arbitrary number of vertices
+  \item[Properties of Free Trees] $G=(V,E)$ is an undirected graph
+    \begin{itemize}
+    \item Any two vertices are connected by a unique simple path
+    \item If any edge is removed from $E$, the graph is not connected
+    \item If any edge is added to $E$, then the graph contains a cycle
+    \item $G$ is connected, acyclic, and $|E| = |V|-1$
+    \end{itemize}
+  \item[Rooted Tree] A free tree in which one vertex is distinguished
+    from the others; the distingushed vertex is the root ($r$), others
+    are called nodes ($x$). For any $x$, there is a unique path from
+    $r$ to $x$. Any node $y$ on a path from $r$ to $x$ is an ancestor
+    of $x$. Every node is its own ancestor and descendant. A proper
+    ancestor (descendant) is an ancestor (descendant) that is not the
+    node itself. The subtree rooted at $x$ is the tree introduced by
+    the descendants of $x$.
+  \end{description} % multicols
+\end{multicols}
+\end{document} 
