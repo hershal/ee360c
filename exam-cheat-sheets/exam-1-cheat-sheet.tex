@@ -91,6 +91,59 @@
     ancestor (descendant) is an ancestor (descendant) that is not the
     node itself. The subtree rooted at $x$ is the tree introduced by
     the descendants of $x$.
+  \item[Asy. Upper Bounds] \hfill \\
+    $\mathcal{O}(g(n))=\{f(n): \exists c,n_0>0 \text{ st } 0 \le f(n)
+    \le cg(n) \quad\forall n \ge n_0\}$; $\Rightarrow
+    \lim_{n\rightarrow\infty}\frac{f(n)}{g(n)} = 0 \text{ or } c$;
+    $a \le b$
+  \item[Asy. Lower Bounds] \hfill\\
+    $\Omega(g(n))=\{f(n): \exists c,n_0>0 \text{ st } 0 \le cg(n) \le
+    f(n) \quad\forall n \ge n_0\}$; $\Rightarrow
+    \lim_{n\rightarrow\infty}\frac{f(n)}{g(n)} = \infty \text{ or }
+    c$;
+    $a \ge b$
+  \item[Asy Tight Bounds] \hfill\\
+    $\Theta(g(n))=\{f(n): \exists c_1,c_2,n_0>0 \text{ st } 0 \le
+    c_1g(n) \le f(n) \le c_2g(n) \quad\forall n \ge n_0\}$;
+    $\Rightarrow \lim_{n\rightarrow\infty}\frac{f(n)}{g(n)} = c}$;
+    $a = b$
+  \item[Asy Non-Tight Bounds $o$ and $\omega$] Replace $\le$ with $<$
+  \item[General Rules for Complexity] Increasing order:
+    logs, polynomials, exponentials
+  \item[Heap Principles] Heaps are loosly ordered in that each child
+    in a min-heap is greater than its parent (that's it). The root is
+    the min value. After every insertion the tree is rebalanced using
+    \texttt{heapify\_up}.
+  \item[Fix Heap Order After Insertion] \\\hfill
+\begin{verbatim}
+heapify_up(H,i) {
+  if (i > 1) {
+    let j = parent(i);
+    if (key(H(i)) < key(H(j))) {
+      swap(H, i, j);
+      heapify_up(H,j);
+}  }  }
+\end{verbatim}
+    Runs $\mathcal{O}(\log i)$.
+  \item[Fix Heap Order After Deletion] \\\hfill
+\begin{verbatim}
+heapify_down(H,i) {
+  let n=length(H);
+  if (2*i > n) {
+    return;
+  } else if ((2*i) < n) {
+    let left = 2*i;
+    let right = 2*i+1;
+    let j = min(key(H(left)), key(H(right)));
+  } else if ((2*i) == n) {
+    let j= 2*i;
+  }
+  if (key(H(j)) < key(H(i))) {
+    swap(H, i, j)
+    heapify_down(H, j);
+}  }
+\end{verbatim}
+    Runs $\mathcal{O}(\log n)$.
   \end{description} % multicols
 \end{multicols}
 \end{document} 
