@@ -4,7 +4,7 @@
 
 #include <sstream>
 
-graph_query::graph_query(undirected_graph* graph) {
+graph_query::graph_query(const undirected_graph* graph) {
     this->graph = graph;
 }
 
