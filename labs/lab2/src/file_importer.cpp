@@ -45,18 +45,19 @@ auto file_importer::generate_graph() -> void {
         try {
             /* Init: input the number of traces and number of devices */
             if (pstate == kPSInit) {
-                num_devices = tokens[0];
-                num_traces = tokens[1];
+                num_devices = stoi(tokens[0]);
+                num_traces = stoi(tokens[1]);
 
                 graph = undirected_graph(num_devices);
-                pstate = kPSNumTicTac;
+                pstate = kPSTraceParse;
 
             } else if ((tokens.size() == 3) && (pstate == kPSTraceParse)) {
                 const size_t device_i = stoi(tokens[0]);
                 const size_t device_j = stoi(tokens[1]);
                 const uint32_t communication_time = stoi(tokens[2]);
                 graph.add_connection(device_i, device_j, communication_time);
-            } else if ((tokens.size() == 4) && (pstate == kPSTics)) {
+                pstate = kPSQueryParse;
+            } else if ((tokens.size() == 4) && (pstate == kPSQueryParse)) {
                 const size_t device_i = stoi(tokens[0]);
                 const size_t device_j = stoi(tokens[1]);
                 const uint32_t time_a = stoi(tokens[2]);
@@ -75,21 +76,8 @@ auto file_importer::generate_graph() -> void {
 
     }
 
-    std::ofstream fout;
-    fout.open(file_output);
-    for (auto i=0; i<graphs.size(); ++i) {
-        std::cout << "instance: " << i << "\n";
-        std::cout << graphs[i].to_string() << "\n";
-        const auto mwmcms = graphs[i].find_mwmcms();
-
-        std::cout << "writing output\n";
-
-        const auto highest_cardinality_match = mwmcms.rbegin();
-        const auto highest_weight_match = highest_cardinality_match->second.rbegin();
-        fout << highest_weight_match->second.size() << "\n";
-        for (const auto match : highest_weight_match->second) {
-            fout << match.to_string() << "\n";
-        }
-    }
-    fout.close();
+    /* std::ofstream fout; */
+    /* fout.open(file_output); */
+    /* DO WORK */
+    /* fout.close(); */
 }

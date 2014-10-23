@@ -4,9 +4,7 @@
 
 #include <sstream>
 
-graph_query::graph_query(const undirected_graph* graph) {
-    this->graph = graph;
-}
+graph_query::graph_query() { }
 
 auto graph_query::add_query(
     const size_t device_i, const size_t device_j,
@@ -18,7 +16,7 @@ auto graph_query::add_query(
     this->time_b = time_b;
 }
 
-auto graph_query::add_query() -> void {
+auto graph_query::do_query(const undirected_graph* graph) -> void {
 
     /* DO WORK */
 }

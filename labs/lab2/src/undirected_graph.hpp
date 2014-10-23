@@ -13,6 +13,7 @@
 
 class undirected_graph {
 public:
+    undirected_graph();
     undirected_graph(size_t num_nodes);
     auto add_connection(size_t id0, size_t id1, uint32_t comm_time) -> void;
     auto add_node(size_t id) -> void;

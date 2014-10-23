@@ -7,6 +7,8 @@
 #include <string>
 #include <sstream>
 
+undirected_graph::undirected_graph() { }
+
 undirected_graph::undirected_graph(size_t num_nodes) {
 
     nodes.reserve(num_nodes);

@@ -9,13 +9,12 @@
 
 class graph_query {
 public:
-    graph_query(const undirected_graph* graph);
+    graph_query();
     auto add_query(const size_t device_i, const size_t device_j,
                    const uint32_t time_a, const uint32_t time_b) -> void;
-    auto do_query() -> void;
+    auto do_query(const undirected_graph* graph) -> void;
     auto to_string() const -> const std::string;
 private:
-    undirected_graph* graph;
     size_t device_i;
     size_t device_j;
     uint32_t time_a;
