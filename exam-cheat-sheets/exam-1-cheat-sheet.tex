@@ -164,16 +164,16 @@ heapify_down(H,i) {
         y = b^x &\Leftrightarrow x=\log_b y &
       \end{aligned}
     \end{equation*}
-  \item[Lower Bound For Worst-Case] The worst case nuber of
-    comparisons for a comparison sort algorithm is the height of its
-    decision tree, usually $\Omega(n\log n)$: We must determine the
-    height of a decision tree with $n!$ leaves. A binary tree of
-    height $h$ has no more than $2^h$ leaves, therefore $n!\le2^h$, so
+  \item[Lower Bound For Worst-Case] The worst case number of
+    comparisons for a comparison-based sort algorithm is the height of
+    its decision tree: $\Omega(n\log n)$. We must determine the height
+    of a decision tree with $n!$ leaves. A binary tree of height $h$
+    has $\le 2^h$ leaves, therefore $n!\le 2^h$, so
     $h\ge\log(n!) = \Omega(n\log n)$
   \item[Data Structure Stats] Priority Queues: $\mathcal{O}(\log n)$
-    ins/del $\mathcal{O}(n\log n)$ sorting/find-min. Lists:
-    $\mathcal{O}(1)$ ins/del, $\Omega(n)$ find-min. Sorted Array:
-    $\Omega(n)$ ins/del, $\mathcal{O}(1)$ find-min.
+    ins/del $\mathcal{O}(n\log n)$ sorting. Lists: $\mathcal{O}(1)$
+    ins/del, $\Omega(n)$ find-min. Sorted Array: $\Omega(n)$ ins/del,
+    $\mathcal{O}(1)$ find-min.
   \end{description} % multicols
 \end{multicols}
 \end{document}
