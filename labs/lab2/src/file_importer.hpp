@@ -2,17 +2,17 @@
 #define FILE_IMPORTER_H
 
 #include <string>
-#include "graph.hpp"
+#include "undirected_graph.hpp"
 
 class file_importer {
 public:
     file_importer(std::string file_input, std::string file_output);
-    auto generate_graphs() -> void;
+    auto generate_graph() -> void;
 
 private:
     std::string file_input;
     std::string file_output;
-    std::vector<undirected_graph> graphs;
+    undirected_graph graph;
     enum parsing_state {kPSInit, kPSTraceParse, kPSQueryParse};
 };
 

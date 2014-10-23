@@ -10,7 +10,7 @@ file_importer::file_importer(std::string file_input, std::string file_output) {
     this->file_output = file_output;
 }
 
-auto file_importer::generate_graphs() -> void {
+auto file_importer::generate_graph() -> void {
 
     /* Generate structures here */
     std::cout << "importing file: " << this->file_input << "\n";
@@ -25,84 +25,48 @@ auto file_importer::generate_graphs() -> void {
     size_t num_devices = 0;
     size_t num_traces = 0;
 
-    size_t current_trace = 0;
+    undirected_graph graph;
+    graph_query query;
 
     while (fin) {
         std::getline(fin, line);
 
         std::size_t pos = 0;
-        std::vector<std::string> toks;
+        std::vector<std::string> tokens;
 
         /* Parse the current line and break it up into elements
            separated by a space so that we can determine what the line is */
         while ((pos = line.find(" "))) {
-            toks.emplace_back(line.substr(0, pos));
+            tokens.emplace_back(line.substr(0, pos));
             line.erase(0, pos + 1);
             if (pos == std::string::npos) { break; }
         }
 
         try {
-            if ((toks.size() == 1) && (pstate == kPSInit)) {
-                /* Num instances */
-                num_devices = std::stoi(toks[0]);
+            /* Init: input the number of traces and number of devices */
+            if (pstate == kPSInit) {
+                num_devices = tokens[0];
+                num_traces = tokens[1];
+
+                graph = undirected_graph(num_devices);
                 pstate = kPSNumTicTac;
 
-            } else if (toks.size() == 2) {
-                if (pstate == kPSNumTicTac) {
-                    /* Num Tics/Tacs */
-                    num_devices = stoi(toks[0]);
-                    num_traces = stoi(toks[1]);
-                    current_trace = 0;
-                    graphs.emplace_back(num_tics, num_tacs);
-                    pstate = kPSTics;
+            } else if ((tokens.size() == 3) && (pstate == kPSTraceParse)) {
+                const size_t device_i = stoi(tokens[0]);
+                const size_t device_j = stoi(tokens[1]);
+                const uint32_t communication_time = stoi(tokens[2]);
+                graph.add_connection(device_i, device_j, communication_time);
+            } else if ((tokens.size() == 4) && (pstate == kPSTics)) {
+                const size_t device_i = stoi(tokens[0]);
+                const size_t device_j = stoi(tokens[1]);
+                const uint32_t time_a = stoi(tokens[2]);
+                const uint32_t time_b = stoi(tokens[3]);
 
-                } else if (pstate == kPSTacs) {
-                    /* Tac node */
-                    const int32_t id = stoi(toks[0]);
-                    const int32_t weight = stoi(toks[1]);
-                    graphs[current_instance].add_tac(id, weight);
-
-                    ++current_tac;
-
-                    if (current_tac == num_tacs) {
-                        pstate = kPSNumTicTac;
-                        ++current_instance;
-                    }
-
-                } else {
-                    std::cout << "Specification error!\n"
-                              << "Tried to get num tic/tacs or a tac but failed.\n";
-                    exit(1);
-                }
-            } else if ((toks.size() == 4) && (pstate == kPSTics)) {
-                /* Tic node */
-                const int32_t id = stoi(toks[0]);
-                const int32_t min = stoi(toks[1]);
-                const int32_t max = stoi(toks[2]);
-                const int32_t weight = stoi(toks[3]);
-
-                graphs[current_instance].add_tic(id, weight, min, max);
-
-                ++current_tic;
-                if (current_tic == num_tics) {
-                    pstate = kPSTacs;
-                }
+                query.add_query(device_i, device_j, time_a, time_b);
 
             } else {
-                if (num_instances == current_instance) {
-                    /* Reached end of parsing */
-                    std::cout << "done parsing\n";
-                } else {
-                    std::cout << "Unknown specification error!\n"
-                              << "Everything fell through. Some information:\n"
-                              << "current_instance/num_instances: "
-                              << current_instance << "/" << num_instances << "\n"
-                              << "current_tic/num_tics: "
-                              << current_tic << "/" << num_tics << "\n"
-                              << "current_tac/num_tacs: "
-                              << current_tac << "/" << num_tacs << "\n";
-                }
-
+                std::cout << "Unknown specification error!\n"
+                          << "Everything fell through!\n";
             }
         } catch (std::exception e) {
             std::cout << e.what() << "\n";
