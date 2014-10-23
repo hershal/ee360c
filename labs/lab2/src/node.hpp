@@ -16,7 +16,7 @@ public:
     node(size_t id);
     auto reset() -> void;
 
-    auto add_adjacent_node(std::shared_ptr<node> node) -> void;
+    auto add_adjacent_node(std::shared_ptr<node> node, uint32_t edge_weight) -> void;
     auto sort_adjacent_nodes() -> void;
 
     auto get_adjacent_nodes() const

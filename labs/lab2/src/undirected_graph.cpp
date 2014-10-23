@@ -23,13 +23,13 @@ auto undirected_graph::add_node(size_t id) -> void {
 auto undirected_graph::add_connection(
     size_t id0, size_t id1, uint32_t comm_time) -> void {
 
-    nodes[id0].add_adjacent_node(nodes[id1], comm_time);
-    nodes[id1].add_adjacent_node(nodes[id0], comm_time);
+    nodes[id0]->add_adjacent_node(nodes[id1], comm_time);
+    nodes[id1]->add_adjacent_node(nodes[id0], comm_time);
 }
 
 auto undirected_graph::reset_nodes() -> void {
 
-    for (const auto n : nodes) { node->reset(); }
+    for (const auto n : nodes) { n->reset(); }
 }
 
 auto undirected_graph::to_string() const

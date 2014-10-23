@@ -16,7 +16,7 @@ auto node::reset() -> void {
     this->enabled = 1;
 }
 
-auto node::add_adjacent_node(std::shared_ptr<node> node, int32_t edge_weight) -> void {
+auto node::add_adjacent_node(std::shared_ptr<node> node, uint32_t edge_weight) -> void {
     adjacent_node adj_node;
     adj_node.node = node;
     adj_node.edge_weight = edge_weight;
@@ -57,7 +57,7 @@ auto node::to_string() const
         << "id: " << this->get_id() << "\t";
 
     for (const auto a : adjacent_nodes) {
-        str << "  id: " << a->node.get_id() << "\n"
+        str << "  id: " << a->node->get_id() << "\n"
             << "  edge_weight: " << a->edge_weight << "\n";
     }
 
