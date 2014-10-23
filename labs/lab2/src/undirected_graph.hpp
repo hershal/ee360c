@@ -3,9 +3,8 @@
 #ifndef UNDIRECTED_GRAPH_H
 #define UNDIRECTED_GRAPH_H
 
-#include "tac_node.hpp"
-#include "tic_node.hpp"
-#include "mwmcm.hpp"
+#include "node.hpp"
+#include "graph_query.hpp"
 
 #include <map>
 #include <vector>
@@ -16,13 +15,15 @@
 class undirected_graph {
 public:
     undirected_graph(size_t num_tics, size_t num_tacs);
-    auto add_node(int32_t id, int32_t weight, int32_t min, int32_t max) -> void;
+    auto add_connection(size_t id0, size_t id1, uint32_t comm_time) -> void;
+    auto add_node(size_t id) -> void;
     auto to_string() const -> const std::string;
 
 private:
-    auto reset() -> void;
+    auto reset_nodes() -> void;
 
     std::vector<std::shared_ptr<node> > nodes;
+    graph_query query;
 };
 
 #endif  /* UNDIRECTED_GRAPH_H */

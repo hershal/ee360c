@@ -7,31 +7,29 @@
 #include <string>
 #include <sstream>
 
-undirected_graph::undirected_graph(
-    size_t num_tics, size_t num_tacs) {
+undirected_graph::undirected_graph(size_t num_nodes) {
 
-    tic_nodes.reserve(num_tics);
-    tic_nodes.reserve(num_tacs);
+    nodes.reserve(num_nodes);
+    for (size_t i=0; i<num_nodes; ++i) {
+        add_node(i);
+    }
 }
 
-auto undirected_graph::add_tic(
-    int32_t id, int32_t weight, int32_t min, int32_t max)
-    -> void {
+auto undirected_graph::add_node(size_t id) -> void {
 
-    tic_nodes.emplace_back(std::make_shared<tic_node>(id, min, max, weight));
+    nodes.emplace_back(std::make_shared<node>(id));
 }
 
-auto undirected_graph::add_tac(
-    int32_t id, int32_t weight)
-    -> void {
+auto undirected_graph::add_connection(
+    size_t id0, size_t id1, uint32_t comm_time) -> void {
 
-    tac_nodes.emplace_back(std::make_shared<tac_node>(id, weight));
+    nodes[id0].add_adjacent_node(nodes[id1], comm_time);
+    nodes[id1].add_adjacent_node(nodes[id0], comm_time);
 }
 
-auto undirected_graph::reset() -> void {
+auto undirected_graph::reset_nodes() -> void {
 
-    for (auto tic : tic_nodes) { tic->reset(); }
-    for (auto tac : tac_nodes) { tac->reset(); }
+    for (const auto n : nodes) { node->reset(); }
 }
 
 auto undirected_graph::to_string() const
