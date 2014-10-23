@@ -13,7 +13,7 @@ public:
         std::shared_ptr<node> node;
     } adjacent_node;
 
-    node(int32_t id, int32_t weight);
+    node(size_t id);
     auto reset() -> void;
 
     auto add_adjacent_node(std::shared_ptr<node> node) -> void;
@@ -21,7 +21,6 @@ public:
 
     auto get_adjacent_nodes() const
         -> const std::vector<std::shared_ptr<adjacent_node> >;
-    auto get_weight() const -> const int32_t;
     auto get_id() const -> const int32_t;
     auto is_enabled() const -> const bool;
     auto disable() -> void;
@@ -30,7 +29,6 @@ public:
 private:
     std::vector<std::shared_ptr<adjacent_node> > adjacent_nodes;
     int32_t id;
-    int32_t weight;
     bool enabled;
 };
 

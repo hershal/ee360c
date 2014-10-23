@@ -7,26 +7,25 @@
 /* REMOVE ME */
 #include <iostream>
 
-node::node(int32_t id, int32_t weight) {
+node::node(size_t id) {
 
     this->id = id;
-    this->weight = weight;
 }
 
 auto node::reset() -> void {
     this->enabled = 1;
 }
 
-auto node::add_adjacent_node(std::shared_ptr<node> node) -> void {
+auto node::add_adjacent_node(std::shared_ptr<node> node, int32_t edge_weight) -> void {
     adjacent_node adj_node;
     adj_node.node = node;
-    adj_node.edge_weight = node->get_weight() + this->weight;
+    adj_node.edge_weight = edge_weight;
     adjacent_nodes.push_back(std::make_shared<adjacent_node>(adj_node));
-    /* std::cout << "adding adjacent node to " */
-    /*           << id << ": " */
-    /*           << node->get_id() << " " */
-    /*           << weight << "     " */
-    /*           << adjacent_nodes.size() << "\n"; */
+    std::cout << "adding adjacent node to "
+              << id << ": "
+              << node->get_id() << " "
+              << edge_weight << "     "
+              << adjacent_nodes.size() << "\n";
 }
 
 auto node::sort_adjacent_nodes() -> void {
@@ -42,9 +41,6 @@ auto node::get_adjacent_nodes() const
     return adjacent_nodes;
 }
 
-auto node::get_weight() const
-    -> const int32_t { return this->weight; }
-
 auto node::get_id() const
     -> const int32_t { return this->id; }
 
@@ -58,8 +54,12 @@ auto node::to_string() const
 
     std::stringstream str;
     str << ""
-        << "id: " << this->get_id() << "\t"
-        << "weight: " << this->get_weight();
+        << "id: " << this->get_id() << "\t";
+
+    for (const auto a : adjacent_nodes) {
+        str << "  id: " << a->node.get_id() << "\n"
+            << "  edge_weight: " << a->edge_weight << "\n";
+    }
 
     return str.str();
 }
