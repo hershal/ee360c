@@ -20,7 +20,6 @@ public:
 
 private:
     auto reset_nodes() -> void;
-
     std::vector<std::shared_ptr<node> > nodes;
 };
 
