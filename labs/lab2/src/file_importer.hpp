@@ -2,7 +2,7 @@
 #define FILE_IMPORTER_H
 
 #include <string>
-#include "complex_bipartite_graph.hpp"
+#include "graph.hpp"
 
 class file_importer {
 public:
@@ -12,8 +12,8 @@ public:
 private:
     std::string file_input;
     std::string file_output;
-    std::vector<complex_bipartite_graph> graphs;
-    enum parsing_state {kPSInstances, kPSNumTicTac, kPSTics, kPSTacs};
+    std::vector<undirected_graph> graphs;
+    enum parsing_state {kPSInit, kPSTraceParse, kPSQueryParse};
 };
 
 #endif  /* FILE_IMPORTER_H */

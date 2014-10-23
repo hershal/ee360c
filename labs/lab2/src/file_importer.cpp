@@ -18,17 +18,14 @@ auto file_importer::generate_graphs() -> void {
     std::ifstream fin;
     fin.open(this->file_input);
 
-    parsing_state pstate = kPSInstances;
+    parsing_state pstate = kPSInit;
 
     /* Parse the current file */
     std::string line;
-    uint32_t num_instances = 0;
-    uint32_t num_tics = 0;
-    uint32_t num_tacs = 0;
+    size_t num_devices = 0;
+    size_t num_traces = 0;
 
-    uint32_t current_instance = 0;
-    uint32_t current_tic = 0;
-    uint32_t current_tac = 0;
+    size_t current_trace = 0;
 
     while (fin) {
         std::getline(fin, line);
@@ -45,20 +42,17 @@ auto file_importer::generate_graphs() -> void {
         }
 
         try {
-            if ((toks.size() == 1) && (pstate == kPSInstances)) {
+            if ((toks.size() == 1) && (pstate == kPSInit)) {
                 /* Num instances */
-                num_instances = std::stoi(toks[0]);
-                current_instance = 0;
-
+                num_devices = std::stoi(toks[0]);
                 pstate = kPSNumTicTac;
 
             } else if (toks.size() == 2) {
                 if (pstate == kPSNumTicTac) {
                     /* Num Tics/Tacs */
-                    num_tics = stoi(toks[0]);
-                    num_tacs = stoi(toks[1]);
-                    current_tic = 0;
-                    current_tac = 0;
+                    num_devices = stoi(toks[0]);
+                    num_traces = stoi(toks[1]);
+                    current_trace = 0;
                     graphs.emplace_back(num_tics, num_tacs);
                     pstate = kPSTics;
 
