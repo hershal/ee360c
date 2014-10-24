@@ -30,6 +30,7 @@ public:
     auto clear_traces() -> void;
     auto has_query() const -> const bool;
     auto to_string() const -> const std::string;
+    auto to_output() const -> const std::string;
 private:
     size_t device_i;
     size_t device_j;

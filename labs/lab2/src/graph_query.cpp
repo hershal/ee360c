@@ -52,7 +52,6 @@ auto graph_query::to_string() const -> const std::string {
 
     std::stringstream stb;
 
-    /* DO WORK */
     if (has_query()) {
         stb << "Query:\n"
             << "  U_i=" << device_i
@@ -71,6 +70,20 @@ auto graph_query::to_string() const -> const std::string {
         } else {
             stb << "  No traces.\n";
         }
+    }
+
+    return stb.str();
+}
+
+auto graph_query::to_output() const -> const std::string {
+    std::stringstream stb;
+
+    stb << trace_list.size() << "\n";
+
+    for (const auto t : trace_list) {
+        stb << t.device_i << " "
+            << t.device_j << " "
+            << t.edge_weight << "\n";
     }
 
     return stb.str();

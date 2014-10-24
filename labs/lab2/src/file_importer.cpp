@@ -83,8 +83,8 @@ auto file_importer::generate_graph() -> void {
         }
     }
 
-    /* std::ofstream fout; */
-    /* fout.open(file_output); */
+    std::ofstream fout;
+    fout.open(file_output);
 
     std::cout << query.to_string() << "\n";
     std::cout << graph.to_string() << "\n";
@@ -94,5 +94,7 @@ auto file_importer::generate_graph() -> void {
     graph.do_query(&query);
     std::cout << query.to_string() << "\n";
 
-    /* fout.close(); */
+    fout << query.to_output();
+
+    fout.close();
 }
