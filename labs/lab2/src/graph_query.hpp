@@ -14,11 +14,13 @@ public:
                    const uint32_t time_a, const uint32_t time_b) -> void;
     auto do_query(const undirected_graph* graph) -> void;
     auto to_string() const -> const std::string;
+    auto has_query() const -> const bool;
 private:
     size_t device_i;
     size_t device_j;
     uint32_t time_a;
     uint32_t time_b;
+    bool query_set;
 };
 
 #endif  /* GRAPH_QUERY_WRAPPER_H */

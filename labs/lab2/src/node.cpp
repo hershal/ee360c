@@ -21,11 +21,11 @@ auto node::add_adjacent_node(std::shared_ptr<node> node, uint32_t edge_weight) -
     adj_node.node = node;
     adj_node.edge_weight = edge_weight;
     adjacent_nodes.push_back(std::make_shared<adjacent_node>(adj_node));
-    std::cout << "adding adjacent node to "
-              << id << ": "
-              << node->get_id() << " "
-              << edge_weight << "     "
-              << adjacent_nodes.size() << "\n";
+    /* std::cout << "adding adjacent node to " */
+    /*           << id << ": " */
+    /*           << node->get_id() << " " */
+    /*           << edge_weight << "     " */
+    /*           << adjacent_nodes.size() << "\n"; */
 }
 
 auto node::sort_adjacent_nodes() -> void {
@@ -54,7 +54,7 @@ auto node::to_string() const
 
     std::stringstream str;
     str << ""
-        << "id: " << this->get_id() << "\t";
+        << "id: " << this->get_id() << "\n";
 
     for (const auto a : adjacent_nodes) {
         str << "  id: " << a->node->get_id() << "\n"

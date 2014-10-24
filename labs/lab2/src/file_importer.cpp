@@ -24,6 +24,7 @@ auto file_importer::generate_graph() -> void {
     std::string line;
     size_t num_devices = 0;
     size_t num_traces = 0;
+    size_t current_trace = 0;
 
     undirected_graph graph;
     graph_query query;
@@ -56,7 +57,11 @@ auto file_importer::generate_graph() -> void {
                 const size_t device_j = stoi(tokens[1]);
                 const uint32_t communication_time = stoi(tokens[2]);
                 graph.add_connection(device_i, device_j, communication_time);
-                pstate = kPSQueryParse;
+                ++current_trace;
+
+                if (current_trace == num_devices-1) {
+                    pstate = kPSQueryParse;
+                }
             } else if ((tokens.size() == 4) && (pstate == kPSQueryParse)) {
                 const size_t device_i = stoi(tokens[0]);
                 const size_t device_j = stoi(tokens[1]);
@@ -64,20 +69,24 @@ auto file_importer::generate_graph() -> void {
                 const uint32_t time_b = stoi(tokens[3]);
 
                 query.add_query(device_i, device_j, time_a, time_b);
-
             } else {
-                std::cout << "Unknown specification error!\n"
-                          << "Everything fell through!\n";
+                if ((current_trace == num_devices-1) && (query.has_query())) {
+                    std::cout << "done parsing\n";
+                } else {
+                    std::cout << "Unknown specification error!\n"
+                              << "Everything fell through!\n";
+                }
             }
         } catch (std::exception e) {
             std::cout << e.what() << "\n";
             exit(1);
         }
-
     }
 
     /* std::ofstream fout; */
     /* fout.open(file_output); */
-    /* DO WORK */
+
+    std::cout << query.to_string() << "\n";
+    std::cout << graph.to_string() << "\n";
     /* fout.close(); */
 }
