@@ -8,6 +8,11 @@ graph_query::graph_query() {
     this->query_set = false;
 }
 
+auto graph_query::get_device_i() const -> const size_t { return this->device_i; }
+auto graph_query::get_device_j() const -> const size_t { return this->device_j; }
+auto graph_query::get_time_a() const -> const uint32_t { return this->time_a; }
+auto graph_query::get_time_b() const -> const uint32_t { return this->time_b; }
+
 auto graph_query::add_query(
     const size_t device_i, const size_t device_j,
     const uint32_t time_a, const uint32_t time_b) -> void {
@@ -17,15 +22,6 @@ auto graph_query::add_query(
     this->time_a = time_a;
     this->time_b = time_b;
     this->query_set = true;
-}
-
-auto graph_query::do_query(const undirected_graph* graph) -> void {
-
-    if (!this->query_set) {
-        return;
-    }
-
-    /* DO WORK */
 }
 
 auto graph_query::has_query() const -> const bool {

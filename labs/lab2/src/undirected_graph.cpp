@@ -29,6 +29,15 @@ auto undirected_graph::add_connection(
     nodes[id1]->add_adjacent_node(nodes[id0], comm_time);
 }
 
+auto undirected_graph::do_query(graph_query* query) -> void {
+
+    if (!query->has_query()) {
+        return;
+    }
+
+    /* DO WORK */
+}
+
 auto undirected_graph::reset_nodes() -> void {
 
     for (const auto n : nodes) { n->reset(); }

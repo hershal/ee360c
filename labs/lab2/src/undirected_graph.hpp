@@ -4,6 +4,7 @@
 #define UNDIRECTED_GRAPH_H
 
 #include "node.hpp"
+#include "graph_query.hpp"
 
 #include <map>
 #include <vector>
@@ -17,6 +18,7 @@ public:
     undirected_graph(size_t num_nodes);
     auto add_connection(size_t id0, size_t id1, uint32_t comm_time) -> void;
     auto add_node(size_t id) -> void;
+    auto do_query(graph_query* query) -> void;
     auto to_string() const -> const std::string;
 
 private:
