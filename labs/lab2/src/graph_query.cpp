@@ -60,8 +60,8 @@ auto graph_query::to_string() const -> const std::string {
             << "  T_a=" << time_a
             << "  T_b=" << time_b
             << "\n";
+        stb << "Trace list:\n";
         if (trace_list.size() > 0) {
-            stb << "Trace list:\n";
             for (const auto t : trace_list) {
                 stb << "  " << t.device_i
                     << " " << t.device_j
@@ -69,7 +69,7 @@ auto graph_query::to_string() const -> const std::string {
                     << "\n";
             }
         } else {
-            stb << "No traces.\n";
+            stb << "  No traces.\n";
         }
     }
 

@@ -35,7 +35,7 @@ auto undirected_graph::do_query(graph_query* query) -> void {
         return;
     }
 
-    /* DO WORK */
+    dfs(query, query->get_device_i(), query->get_time_a());
 }
 
 auto undirected_graph::dfs(graph_query* query,

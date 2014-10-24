@@ -88,5 +88,11 @@ auto file_importer::generate_graph() -> void {
 
     std::cout << query.to_string() << "\n";
     std::cout << graph.to_string() << "\n";
+
+    std::cout << "running...\n";
+
+    graph.do_query(&query);
+    std::cout << query.to_string() << "\n";
+
     /* fout.close(); */
 }
