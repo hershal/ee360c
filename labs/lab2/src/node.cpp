@@ -8,8 +8,8 @@
 #include <iostream>
 
 node::node(size_t id) {
-
     this->id = id;
+    this->enabled = 1;
 }
 
 auto node::reset() -> void {
