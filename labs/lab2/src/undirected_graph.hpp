@@ -19,6 +19,10 @@ public:
     auto add_connection(size_t id0, size_t id1, uint32_t comm_time) -> void;
     auto add_node(size_t id) -> void;
     auto do_query(graph_query* query) -> void;
+
+    auto dfs(graph_query* query, size_t curr_dev_id,
+             size_t curr_edge_weight) -> bool;
+
     auto to_string() const -> const std::string;
 
 private:
