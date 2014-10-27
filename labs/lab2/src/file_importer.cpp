@@ -59,7 +59,7 @@ auto file_importer::generate_graph() -> void {
                 graph.add_connection(device_i, device_j, communication_time);
                 ++current_trace;
 
-                if (current_trace == num_traces-1) {
+                if (current_trace == num_traces) {
                     pstate = kPSQueryParse;
                 }
             } else if ((tokens.size() == 4) && (pstate == kPSQueryParse)) {
