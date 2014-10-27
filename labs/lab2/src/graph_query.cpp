@@ -6,6 +6,10 @@
 
 graph_query::graph_query() {
     this->query_set = false;
+    this->device_i = 0;
+    this->device_j = 0;
+    this->time_a = 0;
+    this->time_b = 0;
 }
 
 auto graph_query::get_device_i() const -> const size_t { return this->device_i; }
