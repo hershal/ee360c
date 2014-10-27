@@ -9,17 +9,19 @@
 
 node::node(size_t id) {
     this->id = id;
-    this->enabled = 1;
 }
 
 auto node::reset() -> void {
-    this->enabled = 1;
+    for (const auto an : adjacent_nodes) {
+        an->enabled = 1;
+    }
 }
 
 auto node::add_adjacent_node(std::shared_ptr<node> node, uint32_t edge_weight) -> void {
     adjacent_node adj_node;
     adj_node.node = node;
     adj_node.edge_weight = edge_weight;
+    adj_node.enabled = true;
     adjacent_nodes.push_back(std::make_shared<adjacent_node>(adj_node));
     /* std::cout << "adding adjacent node to " */
     /*           << id << ": " */
@@ -44,10 +46,33 @@ auto node::get_adjacent_nodes() const
 auto node::get_id() const
     -> const int32_t { return this->id; }
 
-auto node::is_enabled() const
-    -> const bool { return this->enabled; }
+auto node::is_enabled(int32_t adj_node_id) const
+    -> const bool {
 
-auto node::disable() -> void { this->enabled = 0; }
+    /* TODO: Remove this loop somehow */
+    /* I'm currently using a std::vector to store the nodes which are
+       adjacent to the current node. I should probably make this a
+       more effecient data structure, such as a hash but I'm not sure
+       what implications that has toward the graph structure. I should
+       definitely look into this. */
+    for (const auto an : adjacent_nodes) {
+        if (an->node->get_id() == adj_node_id) {
+            return an->enabled;
+        }
+    }
+
+    /* If the adj_node_id was not found, return false */
+    return false;
+}
+
+auto node::disable(int32_t adj_node_id) -> void {
+
+    for (const auto an : adjacent_nodes) {
+        if (an->node->get_id() == adj_node_id) {
+            an->enabled = 0;
+        }
+    }
+}
 
 auto node::to_string() const
     -> const std::string {
@@ -58,7 +83,8 @@ auto node::to_string() const
 
     for (const auto a : adjacent_nodes) {
         str << "  id: " << a->node->get_id() << "\n"
-            << "  edge_weight: " << a->edge_weight << "\n";
+            << "  edge_weight: " << a->edge_weight << "\n"
+            << "  enabled: " << a->enabled << "\n";
     }
 
     return str.str();
