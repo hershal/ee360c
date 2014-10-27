@@ -59,7 +59,7 @@ auto file_importer::generate_graph() -> void {
                 graph.add_connection(device_i, device_j, communication_time);
                 ++current_trace;
 
-                if (current_trace == num_devices-1) {
+                if (current_trace == num_traces-1) {
                     pstate = kPSQueryParse;
                 }
             } else if ((tokens.size() == 4) && (pstate == kPSQueryParse)) {
@@ -70,7 +70,7 @@ auto file_importer::generate_graph() -> void {
 
                 query.add_query(device_i, device_j, time_a, time_b);
             } else {
-                if ((current_trace == num_devices-1) && (query.has_query())) {
+                if ((current_trace == num_traces-1) && (query.has_query())) {
                     std::cout << "done parsing\n";
                 } else {
                     std::cout << "Unknown specification error!\n"
