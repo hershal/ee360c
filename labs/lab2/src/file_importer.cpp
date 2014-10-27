@@ -69,12 +69,15 @@ auto file_importer::generate_graph() -> void {
                 const uint32_t time_b = stoi(tokens[3]);
 
                 query.add_query(device_i, device_j, time_a, time_b);
+                pstate = kPSDone;
             } else {
-                if ((current_trace == num_traces-1) && (query.has_query())) {
+                if ((current_trace == num_traces) &&
+                    (query.has_query()) && (pstate == kPSDone)) {
                     std::cout << "done parsing\n";
                 } else {
                     std::cout << "Unknown specification error!\n"
                               << "Everything fell through!\n";
+                    exit(1);
                 }
             }
         } catch (std::exception e) {

@@ -14,7 +14,7 @@ private:
     std::string file_input;
     std::string file_output;
     undirected_graph graph;
-    enum parsing_state {kPSInit, kPSTraceParse, kPSQueryParse};
+    enum parsing_state {kPSInit, kPSTraceParse, kPSQueryParse, kPSDone};
 };
 
 #endif  /* FILE_IMPORTER_H */
