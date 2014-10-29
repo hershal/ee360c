@@ -3,6 +3,7 @@
 #include "node.hpp"
 
 #include <sstream>
+#include <algorithm>
 
 /* REMOVE ME */
 #include <iostream>
