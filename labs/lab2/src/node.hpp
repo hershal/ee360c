@@ -10,7 +10,7 @@ class node {
 public:
     typedef struct adjacent_node {
         int32_t edge_weight;
-        std::shared_ptr<node> node;
+        std::shared_ptr<node> nref;
         bool enabled;
     } adjacent_node;
 

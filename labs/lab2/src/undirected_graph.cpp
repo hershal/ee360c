@@ -51,21 +51,21 @@ auto undirected_graph::dfs(graph_query* query,
         auto adj_nodes = nodes[curr_dev_id]->get_adjacent_nodes();
 
         for (const auto an : adj_nodes) {
-            if ((an->node->is_enabled(curr_dev_id)) &&
+            if ((an->nref->is_enabled(curr_dev_id)) &&
                 (curr_edge_weight >= query->get_time_a()) &&
                 (an->edge_weight >= curr_edge_weight) &&
                 (an->edge_weight <= query->get_time_b())) {
 
                 /* Disable the connection */
-                an->node->disable(curr_dev_id);
-                nodes[curr_dev_id]->disable(an->node->get_id());
+                an->nref->disable(curr_dev_id);
+                nodes[curr_dev_id]->disable(an->nref->get_id());
 
-                query->push_trace(curr_dev_id, an->node->get_id(), an->edge_weight);
+                query->push_trace(curr_dev_id, an->nref->get_id(), an->edge_weight);
                 std::cout << "    pushing: i: " << curr_dev_id
-                          << " j: " << an->node->get_id()
+                          << " j: " << an->nref->get_id()
                           << " w: " << an->edge_weight << "\n";
 
-                if (dfs(query, an->node->get_id(), an->edge_weight)) {
+                if (dfs(query, an->nref->get_id(), an->edge_weight)) {
                     return true;
                 } else {
                     query->pop_trace();

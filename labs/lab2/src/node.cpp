@@ -17,9 +17,9 @@ auto node::reset() -> void {
     }
 }
 
-auto node::add_adjacent_node(std::shared_ptr<node> node, uint32_t edge_weight) -> void {
+auto node::add_adjacent_node(std::shared_ptr<node> nref, uint32_t edge_weight) -> void {
     adjacent_node adj_node;
-    adj_node.node = node;
+    adj_node.nref = nref;
     adj_node.edge_weight = edge_weight;
     adj_node.enabled = true;
     adjacent_nodes.push_back(std::make_shared<adjacent_node>(adj_node));
@@ -56,7 +56,7 @@ auto node::is_enabled(int32_t adj_node_id) const
        what implications that has toward the graph structure. I should
        definitely look into this. */
     for (const auto an : adjacent_nodes) {
-        if (an->node->get_id() == adj_node_id) {
+        if (an->nref->get_id() == adj_node_id) {
             return an->enabled;
         }
     }
@@ -68,7 +68,7 @@ auto node::is_enabled(int32_t adj_node_id) const
 auto node::disable(int32_t adj_node_id) -> void {
 
     for (const auto an : adjacent_nodes) {
-        if (an->node->get_id() == adj_node_id) {
+        if (an->nref->get_id() == adj_node_id) {
             an->enabled = 0;
         }
     }
@@ -82,7 +82,7 @@ auto node::to_string() const
         << "id: " << this->get_id() << "\n";
 
     for (const auto a : adjacent_nodes) {
-        str << "  id: " << a->node->get_id() << "\n"
+        str << "  id: " << a->nref->get_id() << "\n"
             << "  edge_weight: " << a->edge_weight << "\n"
             << "  enabled: " << a->enabled << "\n";
     }
