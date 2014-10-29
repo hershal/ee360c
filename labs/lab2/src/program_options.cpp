@@ -47,20 +47,20 @@ auto program_options::process_options(int32_t ac, char** av) -> void {
     po::notify(vm);
 
     if (vm.count("help")) {
-        std::cout << desc << "\n";
+        /* std::cout << desc << "\n"; */
         exit(0);
     }
 
     if (vm.count("input-file")) {
         input_files = vm["input-file"].as< std::vector<std::string> >();
     } else {
-        std::cout << desc << "\n";
+        /* std::cout << desc << "\n"; */
         exit(1);
     }
 
     if (vm.count("output-dir")) {
         output_dir = vm["output-dir"].as<std::string>();
-        std::cout << "outputting files to: " << output_dir << "\n";
+        /* std::cout << "outputting files to: " << output_dir << "\n"; */
     } else {
         output_dir = "";
     }
@@ -68,7 +68,7 @@ auto program_options::process_options(int32_t ac, char** av) -> void {
     /* Signal an error if a file is not found */
     for (const auto file : input_files) {
         if (!boost::filesystem::exists(file)) {
-            std::cout << "File not found: " << file << "\n";
+            /* std::cout << "File not found: " << file << "\n"; */
             exit(1);
         }
         std::string replaced_ext = replace_file_extension(file, output_dir, ".out");

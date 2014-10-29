@@ -13,7 +13,7 @@ file_importer::file_importer(std::string file_input, std::string file_output) {
 auto file_importer::generate_graph() -> void {
 
     /* Generate structures here */
-    std::cout << "importing file: " << this->file_input << "\n";
+    /* std::cout << "importing file: " << this->file_input << "\n"; */
 
     std::ifstream fin;
     fin.open(this->file_input);
@@ -73,31 +73,32 @@ auto file_importer::generate_graph() -> void {
             } else {
                 if ((current_trace == num_traces) &&
                     (query.has_query()) && (pstate == kPSDone)) {
-                    std::cout << "done parsing\n";
+                    /* std::cout << "done parsing\n"; */
                 } else {
-                    std::cout << "Unknown specification error!\n"
-                              << "Everything fell through!\n";
+                    /* std::cout << "Unknown specification error!\n" */
+                    /*           << "Everything fell through!\n"; */
                     exit(1);
                 }
             }
         } catch (std::exception e) {
-            std::cout << e.what() << "\n";
+            /* std::cout << e.what() << "\n"; */
             exit(1);
         }
     }
 
-    std::ofstream fout;
-    fout.open(file_output);
+    /* std::ofstream fout; */
+    /* fout.open(file_output); */
 
-    std::cout << query.to_string() << "\n";
-    std::cout << graph.to_string() << "\n";
+    /* std::cout << query.to_string() << "\n"; */
+    /* std::cout << graph.to_string() << "\n"; */
 
-    std::cout << "running...\n";
+    /* std::cout << "running...\n"; */
 
     graph.do_query(&query);
-    std::cout << query.to_string() << "\n";
+    /* std::cout << query.to_string() << "\n"; */
 
-    fout << query.to_output();
+    /* fout << query.to_output(); */
+    std::cout << query.to_output();
 
-    fout.close();
+    /* fout.close(); */
 }

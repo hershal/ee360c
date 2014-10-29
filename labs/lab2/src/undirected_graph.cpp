@@ -32,7 +32,7 @@ auto undirected_graph::add_connection(
 auto undirected_graph::do_query(graph_query* query) -> void {
 
     if (!query->has_query()) {
-        std::cout << "NO QUERY!\n";
+        /* std::cout << "NO QUERY!\n"; */
         return;
     }
 
@@ -45,7 +45,7 @@ auto undirected_graph::dfs(graph_query* query,
 
     if (curr_dev_id == query->get_device_j()) {
         /* Found */
-        std::cout << "FOUND: " << curr_dev_id << "\n";
+        /* std::cout << "FOUND: " << curr_dev_id << "\n"; */
         return true;
     } else {
         auto adj_nodes = nodes[curr_dev_id]->get_adjacent_nodes();
@@ -61,9 +61,9 @@ auto undirected_graph::dfs(graph_query* query,
                 nodes[curr_dev_id]->disable(an->nref->get_id());
 
                 query->push_trace(curr_dev_id, an->nref->get_id(), an->edge_weight);
-                std::cout << "    pushing: i: " << curr_dev_id
-                          << " j: " << an->nref->get_id()
-                          << " w: " << an->edge_weight << "\n";
+                /* std::cout << "    pushing: i: " << curr_dev_id */
+                /*           << " j: " << an->nref->get_id() */
+                /*           << " w: " << an->edge_weight << "\n"; */
 
                 if (dfs(query, an->nref->get_id(), an->edge_weight)) {
                     return true;
@@ -72,7 +72,7 @@ auto undirected_graph::dfs(graph_query* query,
                 }
 
                 /* Not found, then backtrack */
-                std::cout << "    backtracking: " << curr_dev_id << "\n";
+                /* std::cout << "    backtracking: " << curr_dev_id << "\n"; */
             }
         }
     }
