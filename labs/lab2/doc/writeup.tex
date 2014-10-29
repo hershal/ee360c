@@ -15,10 +15,15 @@ edge is being used it calls \verb|push_back| and when the recursive
 call falls through it calls \verb|pop_back|. When the desired node is
 found, the stack is not modified and the base case stops the
 recursion. This ensures that only the working solution is being
-preserved in the \verb|std::vector|.
+preserved in the \verb|std::vector|. Suppose that my DFS does not find
+the appropriate solution even though it exists. Since my DFS goes
+through all possible paths from the source node to the destination
+node, it must find an appropriate path to the destination node. This
+is a contraction of the original supposition. Thus my DFS must find a
+solution if it exists.
 
 \section{Pseudo-Code}
-{  \footnotesize
+{\footnotesize
 \begin{verbatim}
 auto undirected_graph::dfs(graph_query* query,
                            size_t curr_dev_id,
