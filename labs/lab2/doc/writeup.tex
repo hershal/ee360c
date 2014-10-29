@@ -1,0 +1,69 @@
+\documentclass{article}
+\title{EE360C Programming Homework 2}
+\author{Hershal Bhave (hb6279)}
+\date{Due October 28, 2014}
+
+\begin{document}
+\maketitle
+
+\section{Proof}
+The basic problem for this assignment can be modeled through a DFS
+search through a weighted undirected graph. Each edge is disabled once
+it has been ``touched'' so that it is never visited again. The queue
+of nodes is maintained by a common \verb|std::vector| so that when an
+edge is being used it calls \verb|push_back| and when the recursive
+call falls through it calls \verb|pop_back|. When the desired node is
+found, the stack is not modified and the base case stops the
+recursion. This ensures that only the working solution is being
+preserved in the \verb|std::vector|.
+
+\section{Pseudo-Code}
+{  \footnotesize
+\begin{verbatim}
+auto undirected_graph::dfs(graph_query* query,
+                           size_t curr_dev_id,
+                           size_t curr_edge_weight) -> bool {
+
+    if (curr_dev_id == query->get_device_j()) {
+        /* Found */
+        std::cout << "FOUND: " << curr_dev_id << "\n";
+        return true;
+    } else {
+        auto adj_nodes = nodes[curr_dev_id]->get_adjacent_nodes();
+
+        for (const auto an : adj_nodes) {
+            if ((an->nref->is_enabled(curr_dev_id)) &&
+                (curr_edge_weight >= query->get_time_a()) &&
+                (an->edge_weight >= curr_edge_weight) &&
+                (an->edge_weight <= query->get_time_b())) {
+
+                /* Disable the connection */
+                an->nref->disable(curr_dev_id);
+                nodes[curr_dev_id]->disable(an->nref->get_id());
+
+                query->push_trace(curr_dev_id, an->nref->get_id(), an->edge_weight);
+                std::cout << "    pushing: i: " << curr_dev_id
+                          << " j: " << an->nref->get_id()
+                          << " w: " << an->edge_weight << "\n";
+
+                if (dfs(query, an->nref->get_id(), an->edge_weight)) {
+                    return true;
+                } else {
+                    query->pop_trace();
+                }
+
+                /* Not found, then backtrack */
+                std::cout << "    backtracking: " << curr_dev_id << "\n";
+            }
+        }
+    }
+    return false;
+}
+\end{verbatim}
+}
+
+\section{Runtime Complexity}
+Since this algorithm uses a pure DFS approach with no other dependent
+in-loop algorithms, the runtime is $\mathcal{O}(n+m)$.
+
+\end{document}
