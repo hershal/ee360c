@@ -27,11 +27,99 @@
 \begin{document}
 
 \lhead{Hershal Bhave \quad\tiny{hb6279}}
-\rhead{EE360C Fall 2014 Exam 1 Cheat Sheet (Pedro Santacruz)}
+\rhead{EE360C Fall 2014 Exam 2 Cheat Sheet (Pedro Santacruz)}
 
 \begin{multicols}{2}
   \begin{description}
-  \item[dummy] filler
+  \item[Adjacency List] Given a graph $G=(V,E)$, $\forall u \in V$,
+    \verb|Adj[u]| is a list of vertices $v$ such that there is an edge
+    from $u$ to $v$. Alternatively, using an $n \times n$ upper
+    triangular matrix representation we can represent the graph and
+    its edges in a space-effecient format $\mathbb{O}(n^2)$ memory
+    locations where $a_{i,j}=\verb|weight|$.
+  \item[BFS] Applications
+    \begin{itemize}
+    \item Finding Shortest Path (is optimal)
+    \item Testing for bipartiteness
+    \item Serialization
+    \end{itemize}
+    { \footnotesize
+\begin{verbatim}
+procedure BFS(G,v) is
+    create a queue Q
+    create a set V
+    create a map P
+    add v to V
+    enqueue v onto Q
+    while Q is not empty loop
+       t ← Q.dequeue()
+       if t is what we are looking for then
+          return t
+       end if
+       for all edges e in G.adjacentEdges(t) loop
+          u ← G.adjacentVertex(t,e)
+          if u is not in V then
+              add u to V
+              enqueue u onto Q
+              P[u] = t;
+          end if
+       end loop
+    end loop
+    return none
+end BFS
+\end{verbatim}
+      Then backtrace through \verb|P| to obtain the path
+    }
+  \item[DFS]
+    { \footnotesize
+\begin{verbatim}
+auto undirected_graph::dfs(graph_query* query,
+                           size_t curr_dev_id,
+                           size_t curr_edge_weight) -> bool {
+
+    if (curr_dev_id == query->get_device_j()) {
+        /* Found */
+        return true;
+    } else {
+        auto adj_nodes = nodes[curr_dev_id]->get_adjacent_nodes();
+
+        for (const auto an : adj_nodes) {
+            if ((an->nref->is_enabled(curr_dev_id)) &&
+                (curr_edge_weight >= query->get_time_a()) &&
+                (an->edge_weight >= curr_edge_weight) &&
+                (an->edge_weight <= query->get_time_b())) {
+
+                /* Disable the connection */
+                an->nref->disable(curr_dev_id);
+                nodes[curr_dev_id]->disable(an->nref->get_id());
+
+                query->push_trace(curr_dev_id, an->nref->get_id(), an->edge_weight);
+                if (dfs(query, an->nref->get_id(), an->edge_weight)) {
+                    return true;
+                } else {
+                    query->pop_trace();
+                }
+                /* Not found, then backtrack */
+            }
+        }
+    }
+    return false;
+}
+\end{verbatim}
+    }
+  \item[Bipartite Graphs] An undirected $G=(V,E)$ is bipartite if the
+    nodes can be two-colored such that every edge is a different
+    color. If $G$ is bipartite it cannot contain an odd length
+    cycle. Using BFS at node $s$, only one of the following holds:
+    \begin{itemize}
+    \item No edge of $G$ joins two nodes of the same layer
+    \item An edge of $G$ joins two nodes in the same layer and $G$
+      contains an odd length cycle (not bipartite)
+    \end{itemize}
+  \item[Test for Bipartiteness] DFS through the tree. If there is any
+    edge which connects to any node in the same layer, then it is not
+    two-colorable/bipartite and there exists an odd cycle. Otherwise
+    is two-colorable/bipartite.
   \end{description} % multicols
 \end{multicols}
 \end{document}
