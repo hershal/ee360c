@@ -35,14 +35,10 @@
     \verb|Adj[u]| is a list of vertices $v$ such that there is an edge
     from $u$ to $v$. Alternatively, using an $n \times n$ upper
     triangular matrix representation we can represent the graph and
-    its edges in a space-effecient format $\mathbb{O}(n^2)$ memory
+    its edges in a space-effecient format $\mathcal{O}(n^2)$ memory
     locations where $a_{i,j}=\verb|weight|$.
-  \item[BFS] Applications
-    \begin{itemize}
-    \item Finding Shortest Path (is optimal)
-    \item Testing for bipartiteness
-    \item Serialization
-    \end{itemize}
+  \item[BFS] Applications in finding shortest path, testing for
+    bipartiteness, and serialization
     { \footnotesize
 \begin{verbatim}
 procedure BFS(G,v) is
@@ -52,7 +48,7 @@ procedure BFS(G,v) is
     add v to V
     enqueue v onto Q
     while Q is not empty loop
-       t ← Q.dequeue()
+       t <- Q.dequeue()
        if t is what we are looking for then
           return t
        end if
@@ -120,6 +116,39 @@ auto undirected_graph::dfs(graph_query* query,
     edge which connects to any node in the same layer, then it is not
     two-colorable/bipartite and there exists an odd cycle. Otherwise
     is two-colorable/bipartite.
+  \item[Determine Strongly Connected] We can decide if $G$ is strongly
+    connected in $\mathcal{O}(m+n)$ time.
+    { \footnotesize
+\begin{verbatim}
+Pick any node s
+bfs(s)
+reverse_digraph(G)
+bfs(s)
+return (all nodes reached in both bfs)
+\end{verbatim}
+    }
+  \item[DAG] Directed Acyclic Graph, has precedence constraint such that
+    for an edge $(v_i,v_j)$, $v_i$ must come before $v_j$. Dags also
+    contain a node which has no incoming edges.
+  \item[Topological Order] If $G$ has a topological order, then $G$ is
+    a Dag (prove that there is a contradiction if $G$ has a topo order
+    and $G$ has a cycle). If $G$ is a Dag then $G$ contains a node
+    with no incoming edges. Topo sort is $\mathcal{O}(m+n)$.
+\begin{verbatim}
+queue R
+graph G
+R = topo(G)
+
+queue topo(G*,R*)
+    if (G.size() > 1)
+        Find a node v with no incoming edges
+        R->append(v)
+        G->delete(v);
+        topo(G,R);
+     else
+        return(R);
+end
+\end{verbatim}
   \end{description} % multicols
 \end{multicols}
 \end{document}
