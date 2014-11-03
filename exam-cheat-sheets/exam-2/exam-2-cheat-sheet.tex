@@ -149,6 +149,51 @@ queue topo(G*,R*)
         return(R);
 end
 \end{verbatim}
+  \item[Interval Scheduling] Consists of Earliest Start Time, Shortest
+    Interval, Fewest Conflicts, and Earliest Finish Time
+  \item[Greedy Algorithm] In general, problems that can be solved by a
+    greedy approach exhibit: optimal substructure -- if an optimal
+    solution to a problem contains within it optimal solutions to
+    subproblems (many); greedy-choice property -- a globally optimal
+    solution can be arrived at by making a locally optimal choice
+    (one)
+\begin{verbatim}
+Sort jobs by inish times such that f_0 <= f_1 <= f_2, etc
+A <- phi
+    for (j = 0; j<n; ++j)
+        if (job j compatible with A)
+            A <- union(A, {j})
+        end
+    end
+    return A
+end
+\end{verbatim}
+In task scheduling, the greedy algorithm is optimal for task-scheduling.
+\item[Minimum Spanning Trees] Connected undirected graph $G=(V,E)$
+  where each edge $(u,v) \in E$ associated iwth weight $w(u,v)$
+  specifying the cost of the edge. Find an acyclic subset $T
+  \contained E$ that connects all the vertices in $V$ and whose total
+  weight is minimized. Greedy algorithms to create min spanning trees
+  make the ``best'' choice at the moment but are not always optimal.
+\begin{verbatim}
+A <- null
+while (!is_mst(A))
+    find an edge (u,v) that is "safe" for A
+    A <- union(A, {u,v})
+end
+return A
+\end{verbatim}
+\item[Finding a safe edge] Let $G = (V, E)$ be a connected undirected
+  graph with a real-valued weight function w defined on $E$. Let $A$
+  be a subset of $E$ that is included in some minimum spanning tree
+  for $G$, let $(S, V − S)$ be any cut of $G$ that respects $A$, and
+  let $(u, v)$ be a light edge crossing $(S, V − S)$. Then $(u, v)$ is
+  a safe edge for $A$.
+\item[Cut] A cut $(S,V-S)$ of an undirected graph is a partition of
+  $V$. An edge $(u,v)$ crosses a cut if one of $u$ and $v$ is in $S$
+  and the other is in $V-S$. A cut respects a set $A$ of edges if no
+  edges in $A$ cross the cut. An edge is a light edge crossing a cut
+  if its weight is the minimum of all edges that cross the cut.
   \end{description} % multicols
 \end{multicols}
 \end{document}
