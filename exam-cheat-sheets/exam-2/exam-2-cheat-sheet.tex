@@ -156,7 +156,12 @@ end
     solution to a problem contains within it optimal solutions to
     subproblems (many); greedy-choice property -- a globally optimal
     solution can be arrived at by making a locally optimal choice
-    (one)
+    (one). The greedy algo stays ahead: After each step, its solution
+    is at least as good as any others'. Exchange argument: gradually
+    transofrm any solution to the one foudn by greedy without hurting
+    its quality. Structural: Discover a simple ``structural'' bound
+    asserting that every possible optimal solution must have a certain
+    value. Then show that your algo achieves this bound.
 \begin{verbatim}
 Sort jobs by inish times such that f_0 <= f_1 <= f_2, etc
 A <- phi
