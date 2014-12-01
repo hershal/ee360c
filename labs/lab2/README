@@ -1,0 +1,68 @@
+Hershal Bhave
+hb6279
+2014-10-28
+
+EE360C Programming Lab 2
+
+**** !!NOTICE!! ****
+A binary for Arch Linux 3.16 has been generated and is provided in the top level.
+
+I'm using the cmake build system because it is a much better way to
+achieve platform-independence. It's not perfect, but it's much better
+than pure makefiles, where are not the absolute best way to make sure
+your project will build properly under any computer.
+
+The output of 'uname -a' for the machine I built the included binary
+on has been provided below.
+
+Linux arch-utility 3.16.3-1-ARCH #1 SMP PREEMPT Wed Sep 17 21:54:13 CEST 2014 x86_64 GNU/Linux
+
+**** DEPENDENCIES ****
+This project requires the following dependencies to build and run:
+- CMake >= 3.0
+- Boost
+  - program_options
+  - filesystem
+  - system
+- GCC >= 4.7
+- GNU Make >= 4.0
+
+The documentation requires the following:
+- LaTeX 2e
+- pdfTeX
+
+**** BUILDING ****
+Once you have the required dependencies, and are in the directory
+containing this README file, please do the following:
+> mkdir -p build && cd !$
+> cmake ..
+> make lab2
+
+If you wish to also compile the documentation, please do the
+following, in addition to the above steps:
+> make pdf
+
+If you would like to build everything, simply run "make" as it will,
+by default, build both the documentation and the source code.
+
+**** RUNNING ****
+If you're using clang, please edit src/CMakeLists.txt and uncomment
+the section indicated "For clang". If you would like to generate a
+static binary, uncomment the section indicated "For gcc, static
+binary". By default, the "For gcc" section is uncommented. Please only
+have one of these options uncommented.
+
+When completely compiled, the binary will be located in:
+${YOUR_BUILD_DIR}/src-bin/lab2. The report pdf will be located in
+${YOUR_BUILD_DIR}/doc-bin/writeup.pdf.
+
+If you followed the instructions above, your build directory will be
+simply "build".
+
+The following options are supported:
+  -i [ --input-file ] arg input file(s)
+  -o [ --output-dir ] arg output directory
+  -h [ --help ]           produce this help message
+
+The "-i" is optional, as the default parameter will be interpreted as
+an input file.
