@@ -18,10 +18,13 @@ private:
                        const size_t begin_index,
                        std::vector<fragment*>* recurrence_vector) -> bool;
 
-    auto dfs(std::string* desired_string, fragment_package* pkg) -> bool;
+    auto dfs(const std::string* desired_string,
+             fragment_package* pkg,
+             std::vector<fragment*> recurrence_vector) -> bool;
 
     auto check_assembly(const std::string* desired_string,
                         const std::vector<fragment*>* fragments) const -> bool;
+    auto reset_fragments() -> void;
 
     std::vector<fragment*> fragments;
 };

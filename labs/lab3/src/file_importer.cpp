@@ -35,7 +35,7 @@ auto file_importer::generate_graph() -> void {
     size_t current_fragment = 0;
 
     fragment_assembler assembler;
-    /* graph_query query; */
+    std::string desired_string;
 
     while (fin) {
         std::getline(fin, line);
@@ -80,10 +80,10 @@ auto file_importer::generate_graph() -> void {
                     pstate = kPSQueryParse;
                 }
             } else if ((tokens.size() == 1) && (pstate == kPSQueryParse)) {
-                const std::string full_string = tokens[0];
+                desired_string = tokens[0];
 
                 /* TODO: REMOVE ME */
-                printf("query string: %s\n", full_string.c_str());
+                printf("query string: %s\n", desired_string.c_str());
                 /* END TODO */
                 pstate = kPSDone;
             } else {
@@ -109,7 +109,11 @@ auto file_importer::generate_graph() -> void {
     if (output_enabled) {
         fout.open(file_output);
     }
-    
+
+    const auto pkg = assembler.assemble(&desired_string);
+
+    printf("\n\nPackages:\n%s", pkg->show_packages().c_str());
+
     /* std::cout << query.to_string() << "\n"; */
     /* std::cout << graph.to_string() << "\n"; */
 
