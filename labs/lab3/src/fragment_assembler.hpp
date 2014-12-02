@@ -13,14 +13,12 @@ public:
     auto to_string() const -> const std::string;
 
 private:
-    auto begins_with(const std::string* desired, const std::string* fragment) -> size_t;
+    auto begins_with(const std::string* desired, const std::string* fragment_string) -> size_t;
     auto chop_assemble(const std::string* desired_string,
                        const size_t begin_index,
                        std::vector<fragment*>* recurrence_vector) -> bool;
 
-    auto dfs(const std::string* desired_string,
-             fragment_package* pkg,
-             std::vector<fragment*> recurrence_vector) -> bool;
+    auto bfs(const std::string* desired_string, fragment_package* pkg) -> void;
 
     auto check_assembly(const std::string* desired_string,
                         const std::vector<fragment*>* fragments) const -> bool;

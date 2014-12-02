@@ -112,8 +112,6 @@ auto file_importer::generate_graph() -> void {
 
     const auto pkg = assembler.assemble(&desired_string);
 
-    printf("\n\nPackages:\n%s", pkg->show_packages().c_str());
-
     /* std::cout << query.to_string() << "\n"; */
     /* std::cout << graph.to_string() << "\n"; */
 
