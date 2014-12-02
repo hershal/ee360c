@@ -9,7 +9,7 @@ fragment::fragment(std::string payload) {
     this->payload = payload;
     this->enabled = true;
 
-    printf("Fragment Added: %s\n", payload);
+    printf("Fragment Added: %s\n", payload.c_str());
 }
 
 auto fragment::is_enabled() const -> const bool {
@@ -24,6 +24,6 @@ auto fragment::reset() -> void {
     this->enabled = true;
 }
 
-auto fragment::to_string() const -> const std::string {
-    return payload;
+auto fragment::to_string() const -> const std::string* {
+    return &payload;
 }

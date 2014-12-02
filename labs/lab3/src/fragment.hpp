@@ -12,11 +12,11 @@ public:
     auto is_enabled() const -> const bool;
     auto disable() -> void;
     auto reset() -> void;
-    auto to_string() const -> const std::string;
+    auto to_string() const -> const std::string*;
 
 private:
     std::string payload;
-    bool enabled
+    bool enabled;
 };
 
 #endif  /* FRAGMENT_H */

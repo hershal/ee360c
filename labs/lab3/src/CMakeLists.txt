@@ -10,7 +10,7 @@ set (CMAKE_CXX_FLAGS "-std=c++1y -stdlib=libc++")
 # set (CMAKE_CXX_FLAGS "-std=c++11 -static")
 
 project (lab3)
-set (lab3-src lab3.cpp program_options.cpp node.cpp undirected_graph.cpp file_importer.cpp graph_query.cpp)
+set (lab3-src file_importer.cpp fragment.cpp fragment_assembler.cpp fragment_package.cpp lab3.cpp program_options.cpp)
 add_executable (lab3 ${lab3-src})
 
 find_package (Boost COMPONENTS program_options filesystem system REQUIRED)

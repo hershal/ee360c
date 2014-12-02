@@ -1,4 +1,5 @@
 #include "file_importer.hpp"
+#include "fragment_assembler.hpp"
 
 #include <stdio.h>
 #include <iostream>
@@ -33,7 +34,7 @@ auto file_importer::generate_graph() -> void {
     size_t num_fragments = 0;
     size_t current_fragment = 0;
 
-    /* undirected_graph graph; */
+    fragment_assembler assembler;
     /* graph_query query; */
 
     while (fin) {
@@ -51,20 +52,27 @@ auto file_importer::generate_graph() -> void {
         }
 
         try {
-            /* Init: input the number of traces and number of devices */
+            /* Init: input the number of fragments */
             if (pstate == kPSInit) {
                 num_fragments = stoi(tokens[0]);
 
+                /* TODO: REMOVE ME */
                 printf("num fragments: %zu\n", num_fragments);
+                /* END TODO */
 
-                /* graph = undirected_graph(num_devices); */
+                assembler = fragment_assembler();
+
                 pstate = kPSFragmentParse;
 
             } else if ((tokens.size() == 1) && (pstate == kPSFragmentParse)) {
-                const std::string fragment = tokens[0];
-                /* graph.add_connection(device_i, device_j, communication_time); */
+                const std::string fragment_string = tokens[0];
 
-                printf("fragment: %s\n", fragment.c_str());
+                fragment* temp_fragment = new fragment(fragment_string);
+                assembler.add_fragment(temp_fragment);
+
+                /* TODO: REMOVE ME */
+                printf("fragment: %s\n", temp_fragment->to_string()->c_str());
+                /* END TODO */
 
                 ++current_fragment;
 
@@ -74,9 +82,9 @@ auto file_importer::generate_graph() -> void {
             } else if ((tokens.size() == 1) && (pstate == kPSQueryParse)) {
                 const std::string full_string = tokens[0];
 
+                /* TODO: REMOVE ME */
                 printf("query string: %s\n", full_string.c_str());
-                
-                /* query.add_query(device_i, device_j, time_a, time_b); */
+                /* END TODO */
                 pstate = kPSDone;
             } else {
                 if ((current_fragment == num_fragments)
@@ -95,7 +103,7 @@ auto file_importer::generate_graph() -> void {
         }
     }
 
-    /* Not very pretty code below heren */
+    /* Not very pretty code below here */
     std::ofstream fout;
 
     if (output_enabled) {
