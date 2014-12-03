@@ -34,7 +34,7 @@ auto file_importer::generate_graph() -> void {
     size_t num_fragments = 0;
     size_t current_fragment = 0;
 
-    fragment_assembler assembler;
+    fragment_assembler assembler = fragment_assembler();
     std::string desired_string;
 
     while (fin) {
@@ -60,18 +60,16 @@ auto file_importer::generate_graph() -> void {
                 printf("num fragments: %zu\n", num_fragments);
                 /* END TODO */
 
-                assembler = fragment_assembler();
-
                 pstate = num_fragments==0 ? kPSQueryParse : kPSFragmentParse;
 
             } else if ((tokens.size() == 1) && (pstate == kPSFragmentParse)) {
                 const std::string fragment_string = tokens[0];
 
-                fragment* temp_fragment = new fragment(fragment_string);
-                assembler.add_fragment(temp_fragment);
+                /* fragment* temp_fragment = new fragment(fragment_string); */
+                assembler.add_fragment(fragment_string);
 
                 /* TODO: REMOVE ME */
-                printf("fragment: %s\n", temp_fragment->to_string()->c_str());
+                printf("fragment: %s\n", fragment_string.c_str());
                 /* END TODO */
 
                 ++current_fragment;
