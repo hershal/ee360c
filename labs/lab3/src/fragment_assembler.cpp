@@ -21,8 +21,28 @@ auto fragment_assembler::assemble(const std::string* desired_string)
 
     fragment_package* pkg = new fragment_package();
 
+    std::vector<std::vector<std::string> > results_vec;
+    std::vector<std::string> fragment_strings;
+
+    std::vector<std::string> empty_vector;
+
+    /* Shitty adapter */
+    for (const auto fgmt : fragments) {
+        fragment_strings.push_back(*(fgmt->to_string()));
+    }
+
+    poor_mans_bfs(*desired_string, &fragment_strings, empty_vector, &results_vec);
+
+    printf("%lu\n", results_vec.size());
+    for (const auto strvec : results_vec) {
+        for (const auto str : strvec) {
+            printf("%s ", str.c_str());
+        }
+        printf("\n");
+    }
+
     /* for (const auto fgmt : fragments) { */
-        bfs(desired_string, pkg);
+        /* bfs(desired_string, pkg); */
     /* } */
 
     return pkg;
@@ -58,6 +78,60 @@ auto fragment_assembler::to_string() const -> const std::string {
     }
 
     return stb.str();
+}
+
+auto fragment_assembler::poor_mans_bfs
+    (std::string desired_string,
+     std::vector<std::string>* fragment_strings,
+     std::vector<std::string> current_strings,
+     std::vector<std::vector<std::string> >* results) -> bool {
+
+    if (desired_string.size() == 0) {
+
+        /* DEBUG */
+        printf("found: ");
+        for (const auto str : current_strings) {
+            printf("%s ", str.c_str());
+        }
+        printf("\n");
+        /* END DEBUG */
+
+        results->push_back(current_strings);
+
+        return 1;
+    }
+
+    for (const auto str : *fragment_strings) {
+        size_t chop = begins_with(&desired_string, &str);
+        if (chop) {
+            
+            /* DEBUG */
+            printf("chop: %s %lu %s: ", desired_string.c_str(), chop, str.c_str());
+            for (const auto str : current_strings) {
+                printf("%s ", str.c_str());
+            }
+            printf("\n");
+            /* END DEBUG */
+
+            current_strings.push_back(str);
+            std::string substr = desired_string.substr(chop, desired_string.size());
+            if (poor_mans_bfs(substr, fragment_strings, current_strings, results)) {
+
+                /* DEBUG */
+                printf("found, clearing: ");
+
+                for (const auto str : current_strings) {
+                    printf("%s ", str.c_str());
+                }
+                printf("\n");
+                /* END DEBUG */
+
+                current_strings.pop_back();
+            }
+            current_strings.pop_back();
+        }
+    }
+    return 0;
 }
 
 auto fragment_assembler::bfs

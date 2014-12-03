@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 2.8.7)
 
 # For clang
-set (CMAKE_CXX_FLAGS "-std=c++1y -stdlib=libc++")
+# set (CMAKE_CXX_FLAGS "-std=c++1y -stdlib=libc++")
 
 # For gcc
-# set (CMAKE_CXX_FLAGS "-std=c++11")
+set (CMAKE_CXX_FLAGS "-std=c++11")
 
 # For gcc, static binary
 # set (CMAKE_CXX_FLAGS "-std=c++11 -static")
