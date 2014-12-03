@@ -9,7 +9,10 @@ class fragment_assembler {
 public:
     fragment_assembler();
     auto add_fragment(fragment* fgmt) -> void;
-    auto assemble(const std::string* desired_string) -> fragment_package*;
+    /* auto assemble(const std::string* desired_string) -> fragment_package*; */
+    auto assemble(const std::string* desired_string) 
+        -> std::vector<std::vector<std::string> >*;
+
     auto to_string() const -> const std::string;
 
 private:

@@ -17,11 +17,13 @@ auto fragment_assembler::add_fragment(fragment* fgmt) -> void {
 }
 
 auto fragment_assembler::assemble(const std::string* desired_string)
-    -> fragment_package* {
+    -> std::vector<std::vector<std::string> >* {
 
     fragment_package* pkg = new fragment_package();
 
-    std::vector<std::vector<std::string> > results_vec;
+    std::vector<std::vector<std::string> >* results_vec = 
+        new std::vector<std::vector<std::string> >();
+
     std::vector<std::string> fragment_strings;
 
     std::vector<std::string> empty_vector;
@@ -31,10 +33,10 @@ auto fragment_assembler::assemble(const std::string* desired_string)
         fragment_strings.push_back(*(fgmt->to_string()));
     }
 
-    poor_mans_bfs(*desired_string, &fragment_strings, empty_vector, &results_vec);
+    poor_mans_bfs(*desired_string, &fragment_strings, empty_vector, results_vec);
 
-    printf("%lu\n", results_vec.size());
-    for (const auto strvec : results_vec) {
+    printf("%lu\n", results_vec->size());
+    for (const auto strvec : *results_vec) {
         for (const auto str : strvec) {
             printf("%s ", str.c_str());
         }
@@ -45,7 +47,7 @@ auto fragment_assembler::assemble(const std::string* desired_string)
         /* bfs(desired_string, pkg); */
     /* } */
 
-    return pkg;
+    return results_vec;
 }
 
 auto fragment_assembler::chop_assemble

@@ -1,7 +1,7 @@
 #include "file_importer.hpp"
 #include "fragment_assembler.hpp"
 
-#include <stdio.h>
+#include <cstdio>
 #include <iostream>
 #include <fstream>
 #include <exception>
@@ -104,13 +104,24 @@ auto file_importer::generate_graph() -> void {
     }
 
     /* Not very pretty code below here */
-    std::ofstream fout;
+    /* std::ofstream fout; */
+    FILE* fout;
 
     if (output_enabled) {
-        fout.open(file_output);
+        /* fout.open(file_output); */
+        fout = fopen(file_output.c_str(), "w");
     }
 
     const auto pkg = assembler.assemble(&desired_string);
+
+    fprintf(fout, "%lu\n", pkg->size());
+    for (const auto strvec : *pkg) {
+        for (const auto str : strvec) {
+            fprintf(fout, "%s ", str.c_str());
+        }
+        fprintf(fout, "\n");
+    }
+
 
     /* std::cout << query.to_string() << "\n"; */
     /* std::cout << graph.to_string() << "\n"; */
@@ -123,6 +134,7 @@ auto file_importer::generate_graph() -> void {
 
     if (output_enabled) {
         /* fout << query.to_output(); */
-        fout.close();
+        /* fout.close(); */
+        fclose(fout);
     }
 }
