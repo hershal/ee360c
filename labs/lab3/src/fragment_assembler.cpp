@@ -125,8 +125,6 @@ auto fragment_assembler::poor_mans_bfs
                 }
                 printf("\n");
                 /* END DEBUG */
-
-                current_strings.pop_back();
             }
             current_strings.pop_back();
         }
