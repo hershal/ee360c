@@ -2,7 +2,6 @@
 #include "fragment_assembler.hpp"
 
 #include <cstdio>
-#include <iostream>
 #include <fstream>
 #include <exception>
 #include <vector>
@@ -22,7 +21,7 @@ file_importer::file_importer(std::string file_input, std::string file_output,
 auto file_importer::generate_graph() -> void {
 
     /* Generate structures here */
-    std::cout << "importing file: " << this->file_input << "\n";
+    /* std::cout << "importing file: " << this->file_input << "\n"; */
 
     std::ifstream fin;
     fin.open(this->file_input);
@@ -56,22 +55,12 @@ auto file_importer::generate_graph() -> void {
             if (pstate == kPSInit) {
                 num_fragments = stoi(tokens[0]);
 
-                /* TODO: REMOVE ME */
-                printf("num fragments: %zu\n", num_fragments);
-                /* END TODO */
-
                 pstate = num_fragments==0 ? kPSQueryParse : kPSFragmentParse;
 
             } else if ((tokens.size() == 1) && (pstate == kPSFragmentParse)) {
                 const std::string fragment_string = tokens[0];
 
-                /* fragment* temp_fragment = new fragment(fragment_string); */
                 assembler.add_fragment(fragment_string);
-
-                /* TODO: REMOVE ME */
-                printf("fragment: %s\n", fragment_string.c_str());
-                /* END TODO */
-
                 ++current_fragment;
 
                 if (current_fragment == num_fragments) {
@@ -79,16 +68,12 @@ auto file_importer::generate_graph() -> void {
                 }
             } else if ((tokens.size() == 1) && (pstate == kPSQueryParse)) {
                 desired_string = tokens[0];
-
-                /* TODO: REMOVE ME */
-                printf("query string: %s\n", desired_string.c_str());
-                /* END TODO */
                 pstate = kPSDone;
             } else {
                 if ((current_fragment == num_fragments)
-                    /* && (query.has_query()) */
                     && (pstate == kPSDone)) {
-                    printf("done parsing\n");
+
+                    /* printf("done parsing\n"); */
                 } else {
                     printf("Unknown specification error!\n");
                     printf("Everything fell through!\n");
@@ -96,12 +81,14 @@ auto file_importer::generate_graph() -> void {
                 }
             }
         } catch (std::exception e) {
-            std::cout << e.what() << "\n";
+            /* std::cout << e.what() << "\n"; */
+            printf("%s", e.what());
             exit(1);
         }
     }
 
-    /* Not very pretty code below here */
+    /* Testing out fprintf to see if it's faster */
+
     /* std::ofstream fout; */
     FILE* fout;
 
@@ -112,26 +99,14 @@ auto file_importer::generate_graph() -> void {
 
     const auto pkg = assembler.assemble(&desired_string);
 
-    fprintf(fout, "%lu\n", pkg->size());
-    for (const auto strvec : *pkg) {
-        for (const auto str : strvec) {
-            fprintf(fout, "%s ", str.c_str());
-        }
-        fprintf(fout, "\n");
-    }
-
-
-    /* std::cout << query.to_string() << "\n"; */
-    /* std::cout << graph.to_string() << "\n"; */
-
-    /* std::cout << "running...\n"; */
-
-    /* graph.do_query(&query); */
-    /* std::cout << query.to_string() << "\n"; */
-
-
     if (output_enabled) {
-        /* fout << query.to_output(); */
+        fprintf(fout, "%lu\n", pkg->size());
+        for (const auto strvec : *pkg) {
+            for (const auto str : strvec) {
+                fprintf(fout, "%s ", str.c_str());
+            }
+            fprintf(fout, "\n");
+        }
         /* fout.close(); */
         fclose(fout);
     }

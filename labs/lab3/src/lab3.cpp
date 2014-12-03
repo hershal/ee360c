@@ -1,19 +1,16 @@
 #include "program_options.hpp"
 #include "file_importer.hpp"
 
-#include <iostream>
-
 auto main(int ac, char** av) -> int {
 
-    std::cout << "parsing options\n";
-    auto options = program_options(ac, av);
+    auto options = new program_options(ac, av);
 
-    std::cout << "processing files\n";
-    for (const auto file : options.get_input_output_file_map()) {
-        std::cout << file.first << " -> " << file.second << std::endl;
+    for (const auto file : *(options->get_input_output_file_map())) {
         file_importer importer
             = file_importer(file.first, file.second,
-                            options.get_output_enabled());
+                            options->get_output_enabled());
         importer.generate_graph();
     }
+    delete options;
+    /* exit(0); */
 }

@@ -23,8 +23,13 @@ auto operator<<(std::ostream& os, const std::vector<T>& v)
 }
 
 program_options::program_options(int32_t ac, char** av) {
-
+    input_output_file_map = new std::map<std::string, std::string>();
     process_options(ac, av);
+}
+
+program_options::~program_options() {
+    input_output_file_map->clear();
+    delete input_output_file_map;
 }
 
 auto program_options::process_options(int32_t ac, char** av) -> void {
@@ -78,8 +83,9 @@ auto program_options::process_options(int32_t ac, char** av) -> void {
             std::cout << "File not found: " << file << "\n";
             exit(1);
         }
-        std::string replaced_ext = replace_file_extension(file, output_dir, ".out");
-        input_output_file_map[file] = replaced_ext;
+
+        (*input_output_file_map)[file] =
+            replace_file_extension(file, output_dir, ".out");;
     }
 }
 
@@ -99,14 +105,15 @@ auto program_options::replace_file_extension(
     std::string basename_substr = file.substr(last_slash);
 
     size_t last_dot = basename_substr.find_last_of(".");
-    basename_substr = basename_substr.substr(0, last_dot);
-    basename_substr.append(".out");
+    basename_substr = basename_substr.substr(0, last_dot) + extension;
 
-    return dirname_substr.append(basename_substr);
+    std::string final_string = dirname_substr + basename_substr;
+
+    return final_string;
 }
 
 auto program_options::get_input_output_file_map() const
-    -> const std::map<std::string, std::string> {
+    -> const std::map<std::string, std::string>* {
 
     return input_output_file_map;
 }

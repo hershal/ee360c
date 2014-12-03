@@ -2,8 +2,6 @@
 #define FILE_IMPORTER_H
 
 #include <string>
-/* #include "undirected_graph.hpp" */
-/* #include "graph_query.hpp" */
 
 class file_importer {
 public:

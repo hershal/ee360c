@@ -11,7 +11,6 @@ fragment_assembler::fragment_assembler() {
 fragment_assembler::~fragment_assembler() {
     for (auto vec : *results_vec) {
         vec.clear();
-        /* delete vec; */
     }
     results_vec->clear();
     delete results_vec;
