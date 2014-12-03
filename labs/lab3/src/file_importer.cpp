@@ -62,7 +62,7 @@ auto file_importer::generate_graph() -> void {
 
                 assembler = fragment_assembler();
 
-                pstate = kPSFragmentParse;
+                pstate = num_fragments==0 ? kPSQueryParse : kPSFragmentParse;
 
             } else if ((tokens.size() == 1) && (pstate == kPSFragmentParse)) {
                 const std::string fragment_string = tokens[0];
