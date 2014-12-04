@@ -12,5 +12,5 @@ auto main(int ac, char** av) -> int {
         importer.generate_graph();
     }
     delete options;
-    exit(0);
+    /* exit(0); */
 }
