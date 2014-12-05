@@ -16,9 +16,9 @@ public:
 
 private:
     auto begins_with(const std::string* desired,
-                     const std::string* fragment_string) 
+                     const std::string* fragment_string) const
         -> size_t;
-    auto poor_mans_bfs(std::string desired_string,
+    auto poor_mans_dfs(std::string desired_string,
                        std::vector<std::string> current_strings,
                        std::vector<std::vector<std::string> >* results) 
         -> bool;

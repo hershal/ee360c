@@ -103,13 +103,13 @@ auto file_importer::generate_graph() -> void {
             fprintf(fout, "\n");
         }
         fclose(fout);
-    } else {
-        printf( "%lu\n", pkg->size());
-        for (const auto strvec : *pkg) {
-            for (const auto str : strvec) {
-                printf("%s ", str.c_str());
-            }
-            printf("\n");
+    }
+
+    printf("%lu\n", pkg->size());
+    for (const auto strvec : *pkg) {
+        for (const auto str : strvec) {
+            printf("%s ", str.c_str());
         }
+        printf("\n");
     }
 }

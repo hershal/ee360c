@@ -27,7 +27,7 @@ auto fragment_assembler::assemble(const std::string* desired_string)
 
     std::vector<std::string> empty_vector;
 
-    poor_mans_bfs(*desired_string, empty_vector, results_vec);
+    poor_mans_dfs(*desired_string, empty_vector, results_vec);
 
     /* DEBUG */
     /* printf("%lu\n", results_vec->size()); */
@@ -43,7 +43,8 @@ auto fragment_assembler::assemble(const std::string* desired_string)
 }
 
 auto fragment_assembler::begins_with
-(const std::string* desired, const std::string* fragment_string) -> size_t {
+    (const std::string* desired, const std::string* fragment_string) const
+    -> size_t {
 
     if (desired->find(*fragment_string) == 0) {
         return fragment_string->size();
@@ -52,7 +53,7 @@ auto fragment_assembler::begins_with
     }
 }
 
-auto fragment_assembler::poor_mans_bfs
+auto fragment_assembler::poor_mans_dfs
     (std::string desired_string,
      std::vector<std::string> current_strings,
      std::vector<std::vector<std::string> >* results) -> bool {
@@ -86,7 +87,7 @@ auto fragment_assembler::poor_mans_bfs
 
             current_strings.push_back(str);
             std::string substr = desired_string.substr(chop, desired_string.size());
-            if (poor_mans_bfs(substr, current_strings, results)) {
+            if (poor_mans_dfs(substr, current_strings, results)) {
 
                 /* DEBUG */
                 /* printf("found, clearing: "); */
