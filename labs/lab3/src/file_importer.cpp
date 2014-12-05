@@ -87,19 +87,14 @@ auto file_importer::generate_graph() -> void {
         }
     }
 
-    /* Testing out fprintf to see if it's faster */
-
-    /* std::ofstream fout; */
-    FILE* fout;
-
-    if (output_enabled) {
-        /* fout.open(file_output); */
-        fout = fopen(file_output.c_str(), "w");
-    }
-
     const auto pkg = assembler.assemble(&desired_string);
 
     if (output_enabled) {
+        /* Testing out fprintf to see if it's faster */
+        /* std::ofstream fout; */
+        FILE* fout;
+        /* fout.open(file_output); */
+        fout = fopen(file_output.c_str(), "w");
         fprintf(fout, "%lu\n", pkg->size());
         for (const auto strvec : *pkg) {
             for (const auto str : strvec) {
@@ -107,7 +102,14 @@ auto file_importer::generate_graph() -> void {
             }
             fprintf(fout, "\n");
         }
-        /* fout.close(); */
         fclose(fout);
+    } else {
+        printf( "%lu\n", pkg->size());
+        for (const auto strvec : *pkg) {
+            for (const auto str : strvec) {
+                printf("%s ", str.c_str());
+            }
+            printf("\n");
+        }
     }
 }
