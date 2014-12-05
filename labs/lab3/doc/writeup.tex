@@ -1,0 +1,81 @@
+\documentclass{article}
+\title{EE360C Programming Homework 3}
+\author{Hershal Bhave (hb6279)}
+\date{Due December 4, 2014}
+
+\begin{document}
+\maketitle
+
+\section{Proof}
+The basic problem for this assignment can be modeled through a DFS
+search. Each fragment is checked to determine if it could possibly
+start the desired string. If the fragment matches the beginning of the
+desired string, then matching segment of the desired string is chopped
+off, the current fragment is added to already-matching
+\verb|std::vector| of fragments, and the function recurses. This is
+repeated for each fragment in the input list. If the recursive call
+falls through, the fragment which was just added to the matching
+fragments is popped off and the function continues to the next
+fragment if available. When the desired word becomes an empty string,
+then the list of fragments which match the original desired string has
+been found, and this result is added to the list of results. Since I
+can relate this problem to a DFS search, I can use a relevant proof to
+prove its correctness:
+
+Suppose that my DFS does not find the appropriate solution even though
+it exists. Since my DFS goes through all possible paths from the
+source fragment list to the desired string, it must find an
+appropriate path to the desired string. This is a contraction of the
+original supposition. Thus my ``poor man's DFS'' must find a solution
+if it exists.
+
+\pagebreak[4]
+\section{Pseudo-Code}
+{\footnotesize
+\begin{verbatim}
+auto fragment_assembler::begins_with
+    (const std::string* desired, const std::string* fragment_string) const
+    -> size_t {
+
+    if (desired->find(*fragment_string) == 0) {
+        return fragment_string->size();
+    } else {
+        return 0;
+    }
+}
+
+auto fragment_assembler::poor_mans_dfs
+    (std::string desired_string,
+     std::vector<std::string> current_strings,
+     std::vector<std::vector<std::string> >* results) 
+    -> bool {
+
+    if (desired_string.size() == 0) {
+        results->push_back(current_strings);
+        return 1;
+    }
+
+    for (const auto str : fragments) {
+        size_t chop = begins_with(&desired_string, &str);
+        if (chop) {
+            current_strings.push_back(str);
+            std::string substr = desired_string.substr(chop, desired_string.size());
+            poor_mans_dfs(substr, current_strings, results);
+            current_strings.pop_back();
+        }
+    }
+    return 0;
+}
+\end{verbatim}
+}
+
+\section{Runtime Complexity}
+This algorithm does not disable fragments when they are visited, so
+its runtime complexity is at maximum $\mathcal{O}(n^n)$. That being
+said, the limiting criteria for the fragments for which the function
+is allowed to recurse is very narrow, which makes the actual runtime
+far better than $\mathcal{O}(n^n)$. This is done by the
+\verb|begins_with| function, which trims down the number DFS searches
+considerably. Thus, although I define the runtime complexity as
+$\mathcal{O}(n^n)$, it almost never is the case.
+\end{document}
