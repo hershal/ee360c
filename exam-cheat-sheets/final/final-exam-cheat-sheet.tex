@@ -31,7 +31,39 @@
 
 \begin{multicols}{2}
   \begin{description}
-  \item [Placeholder] This is a placeholder.
+  \item [Flow Network] Directed graph with no parallel edges, with a
+    source routing to a sink; each edge has a capacity.
+    The net flow sent across the cut is equal to the amount leaving
+    $s$:
+    $$\sum_{e \text{ leaving } A}f(e) - \sum_{e \text{ entering }
+      A}f(e) = v(f)$$
+    The value of a flow $f$ is $v(f) = \sum_{e \text{ leaving } s}f(e)$.
+    The frontier cut capacity must never exceed the value of the flow
+    (Weak Duality Thm).
+    If $v(f) = \text{cap}(A,B)$ then $f$ is a max flow and $(A,B)$ is
+    a min cut.
+  \item [S-T Cut] A partition $(A, B)$ of $V$ with $s \in A$ and $t
+    \in B$. The capacity of the cut is $\verb|cap|(A,B)=\sum_{e \text{
+      leaving } A}c(e)$.
+  \item [S-T Flow] Function which satisfies
+    \begin{description}
+    \item [Capacity] $\forall e \in E: 0 \le f(e) \le c(e)$
+    \item [Conservation] $\forall v \in V- \{s,t\}: \sum_{e\text{ entering
+      } v}f(e) = \sum_{e \text{ leaving } v} f(e)
+    \end{description}
+  \item [Max Flow Algorithm] Greedy attempts to locally optimize but
+    does not always achieve global optimality.
+  \item [Max Flow Min Cut (Ford-Faulkerson)] Augment the path by
+    adding backward feedback for the flow consumed through a path. If
+    there are no more augmenting paths then the flow is maximized
+    (Augmenting Path Thm). The value of the max flow is equal to the
+    value of the min cut (Max-Flow Min-Cut Thm). Prove these two by
+    proving that the following is equivalent:
+    \begin{enumerate}
+      \item $\exists \text{cut} (A,B) \text{s.t.} v(f) = \text{cap}(A,B)$
+      \item Flow $f$ is a max flow
+      \item There is no augmenting path relative to $f$.
+    \end{enumerate}
   \end{description} % multicols
 \end{multicols}
 \end{document}

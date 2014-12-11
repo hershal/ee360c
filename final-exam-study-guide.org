@@ -1,0 +1,71 @@
+#+PROPERTY: COOKIE_DATA recursive
+(print org-hierarchical-checkbox-statistics)
+(setq  org-hierarchical-checkbox-statistics nil)
+* TODO [11/67] EE360C Study Guide
+- [ ] Review of Discrete Math
+  - [ ] Sets
+  - [ ] Relations
+  - [ ] Functions
+- [ ] Review of Proofs
+  - [ ] Implication
+  - [ ] Equivalence
+  - [ ] Techniques
+    - [ ] Contradiction
+    - [ ] Induction
+- [ ] Algorithm Analysis
+- [ ] Priority Queues
+- [ ] Graphs
+  - [ ] Directed
+  - [ ] Undirected
+  - [ ] Paths
+  - [ ] Special Graphs:
+    - [ ] Complete
+    - [ ] Bipartite
+    - [ ] etc
+  - [ ] Graph Algorithms
+    - [ ] BFS, DFS
+      - [ ] Theorems
+      - [ ] Complications
+      - [ ] Features
+      - [ ] Uses
+      - [ ] Running time
+    - [ ] Topological Sort
+      - [ ] Uses
+      - [ ] Generation
+- [ ] Stable Marriage
+  - [ ] Matching
+  - [ ] Perfect Matching
+  - [ ] Stable Matchign
+  - [ ] G-S Algorithm
+    - [ ] Correctness
+    - [ ] Termination
+- [ ] Greedy Algorithms
+  - [ ] Greedy on different metrics
+- [ ] EXAM 1
+- [ ] Shortest Path Algo (Dijkstra)
+- [ ] MST
+  - [ ] Safe Edges
+  - [ ] Algorithms
+    - [ ] Kruskal
+    - [ ] Prim
+- [ ] Divide and Conquer
+  - [ ] Exponentiation
+- [ ] Master Method
+  - [ ] Formulas (especially recursion)
+- [-] Dynamic Programming
+  - [X] Filling out the table
+  - [X] DP equation in terms of previous problems
+  - [X] Bellman-Ford
+  - [X] Knapsack
+  - [ ] Running Time
+- [ ] EXAM 2
+- [-] Network Flow
+  - [X] Flow
+  - [X] Conservation
+  - [X] Value
+  - [X] Max Flow Min Cut
+  - [ ] Ford-Faulkerson
+    - [ ] Running Time
+- [X] NP-Completeness 
+  - [X] Relationships between NP, NPC, and NPH
+  - [X] Show a problem is NP
