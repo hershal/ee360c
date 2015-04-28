@@ -5,7 +5,7 @@
 #include <sstream>
 
 /* REMOVE ME */
-#include <iostream>
+#include <algorithm>
 
 tac_node::tac_node(int32_t id, int32_t weight) {
 

@@ -3,6 +3,7 @@
 #include "complex_bipartite_graph.hpp"
 
 #include <iostream>
+#include <algorithm>
 #include <fstream>
 #include <string>
 #include <sstream>
