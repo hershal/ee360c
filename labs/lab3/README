@@ -1,0 +1,68 @@
+Hershal Bhave
+hb6279
+2014-12-04
+
+EE360C Programming Lab 3
+
+**** !!NOTICE!! ****
+A binary for Mac OS X and Linux x86_64 >=2.6.32 has been generated and
+is provided in the top level (RUN-OSX and RUN-LINUX, respectively).
+
+I'm using the cmake build system because it is a much better way to
+achieve platform-independence. It's much better than pure makefiles,
+where are not a very good way to make sure your project will build
+properly under any computer.
+
+The output of 'uname -a' for each machine I built the included binaries
+on has been provided below:
+
+Darwin rMBP15.local 14.0.0 Darwin Kernel Version 14.0.0: Fri Sep 19 00:26:44 PDT 2014; root:xnu-2782.1.97~2/RELEASE_X86_64 x86_64
+Linux cortex 3.16.4-1-ARCH #1 SMP PREEMPT Mon Oct 6 08:22:27 CEST 2014 x86_64 GNU/Linux
+
+**** DEPENDENCIES ****
+This project requires the following dependencies to build and run:
+- CMake >= 2.8.7
+- Boost
+  - program_options
+  - filesystem
+  - system
+- GCC >= 4.7 or LLVM >= 3.5
+- GNU Make >= 4.0
+
+The documentation requires the following:
+- LaTeX 2e
+- pdfTeX
+
+**** BUILDING ****
+Once you have the required dependencies, and are in the directory
+containing this README file, please do the following:
+> mkdir -p build && cd !$
+> cmake ..
+> make lab3
+
+If you wish to also compile the documentation, please do the
+following, in addition to the above steps:
+> make pdf
+
+If you would like to build everything, simply run "make" as it will,
+by default, build both the documentation and the source code.
+
+**** RUNNING ****
+If you're using gcc, please edit src/CMakeLists.txt and uncomment
+the section indicated "For gcc". If you would like to generate a
+static binary, uncomment the section indicated "For gcc, static
+binary". By default, the "For clang" section is uncommented. Please only
+have one of these options uncommented.
+
+When completely compiled, the binary will be located in:
+${YOUR_BUILD_DIR}/src-bin/lab3. The report pdf will be located in
+${YOUR_BUILD_DIR}/doc-bin/writeup.pdf. If you followed the
+instructions above, your build directory will be simply "build".
+
+The following options are supported:
+  -i [ --input-file ] arg input file(s)
+  -o [ --output-dir ] arg output directory
+  -h [ --help ]           produce this help message
+
+The "-i" is optional, as the default parameter will be interpreted as
+an input file.
