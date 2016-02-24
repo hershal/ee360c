@@ -3,6 +3,6 @@ project (exam-1-cheat-sheet)
 include (../UseLATEX.cmake)
 
 add_latex_document (
-  exam-1-cheat-sheet.tex
+  exam-1-cheat-sheet.tex MANGLE_TARGET_NAMES
   DEFAULT_PDF
 )
